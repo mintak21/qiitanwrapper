@@ -78,9 +78,9 @@ func (h *tagItemsHandler) sendRequest2Qiita(params items.GetTagItemsParams) ([]*
 	requestParams.Add("per_page", fmt.Sprintf("%d", perPage))
 	requestParams.Add("query", fmt.Sprintf("tag:%s", params.Tag))
 	request.URL.RawQuery = requestParams.Encode()
-	log.WithFields(log.Fields{
-		"url": request.URL,
-	}).Info("Qiita API Requests")
+	// log.WithFields(log.Fields{
+	// 	"url": request.URL,
+	// }).Info("Qiita API Requests")
 
 	resp, err := client.Do(request)
 	if err != nil {

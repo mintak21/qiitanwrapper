@@ -41,6 +41,9 @@ func main() {
 	// Set Handler
 	api.ItemsGetTagItemsHandler = handler.NewGetTagItemsHandler()
 
+	// configure server
+	server.ConfigureAPI()
+
 	// serve API
 	if err := server.Serve(); err != nil {
 		log.Fatalln(err)
