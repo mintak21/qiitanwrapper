@@ -107,6 +107,7 @@ definitions:
         type: number
         format: int64
         description: 現在のページ
+        example: 1
       has_next:
         type: boolean
         description: 次のページがあるかどうか
@@ -116,17 +117,21 @@ definitions:
       title:
         type: string
         description: 記事のタイトル
+        example: "Terraformを始める"
       link:
         type: string
         description: 記事のリンクURL
+        example: "https://example.com/test"
       tags:
         type: array
         items:
           type: string
           description: つけられているタグ一覧
+          example: ["Terraform", "AWS", "Lambda"]
       table_contents:
         type: string
         description: 目次
+        example: "<h1概要</h1><h2>その１</h2><h2>その２</h2>"
       statistics:
         $ref: "#/definitions/Statistics"
       user:
@@ -135,6 +140,7 @@ definitions:
         type: string
         description: 投稿日時
         format: yyyyMMddThhmmssZ
+        example: "20200707T124012+09:00"
   Statistics:
     type: object
     properties:
@@ -142,16 +148,20 @@ definitions:
         type: number
         format: int64
         description: LGTM数
+        example: 2
       stocks:
         type: number
         format: int64
         description: ストック数（ストックしているユーザー数）
+        example: 1
   User:
     type: object
     properties:
       name:
         type: string
         description: ユーザー名称
+        example: mintak21
       thumbnail_link:
         type: string
         description: サムネイル画像リンク
+        example: "https://example.com/test.jpg"
