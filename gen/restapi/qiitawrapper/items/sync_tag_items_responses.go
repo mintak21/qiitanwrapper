@@ -104,3 +104,27 @@ func (o *SyncTagItemsNotFound) WriteResponse(rw http.ResponseWriter, producer ru
 
 	rw.WriteHeader(404)
 }
+
+// SyncTagItemsInternalServerErrorCode is the HTTP code returned for type SyncTagItemsInternalServerError
+const SyncTagItemsInternalServerErrorCode int = 500
+
+/*SyncTagItemsInternalServerError Internal Server Error
+
+swagger:response syncTagItemsInternalServerError
+*/
+type SyncTagItemsInternalServerError struct {
+}
+
+// NewSyncTagItemsInternalServerError creates SyncTagItemsInternalServerError with default headers values
+func NewSyncTagItemsInternalServerError() *SyncTagItemsInternalServerError {
+
+	return &SyncTagItemsInternalServerError{}
+}
+
+// WriteResponse to the client
+func (o *SyncTagItemsInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
+
+	rw.WriteHeader(500)
+}

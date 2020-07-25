@@ -37,6 +37,8 @@ paths:
           description: Bad Request
         404:
           description: Not Found
+        500:
+          description: Internal Server Error
   "/items/sync/{tag}":
     get:
       tags:
@@ -68,6 +70,8 @@ paths:
           description: Bad Request
         404:
           description: Not Found
+        500:
+          description: Internal Server Error
   "/items/high_qualities":
     get:
       tags:
@@ -94,6 +98,8 @@ paths:
           description: Bad Request
         404:
           description: Not Found
+        500:
+          description: Internal Server Error
 definitions:
   Items:
     type: object

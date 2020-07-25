@@ -104,3 +104,27 @@ func (o *GetTagItemsNotFound) WriteResponse(rw http.ResponseWriter, producer run
 
 	rw.WriteHeader(404)
 }
+
+// GetTagItemsInternalServerErrorCode is the HTTP code returned for type GetTagItemsInternalServerError
+const GetTagItemsInternalServerErrorCode int = 500
+
+/*GetTagItemsInternalServerError Internal Server Error
+
+swagger:response getTagItemsInternalServerError
+*/
+type GetTagItemsInternalServerError struct {
+}
+
+// NewGetTagItemsInternalServerError creates GetTagItemsInternalServerError with default headers values
+func NewGetTagItemsInternalServerError() *GetTagItemsInternalServerError {
+
+	return &GetTagItemsInternalServerError{}
+}
+
+// WriteResponse to the client
+func (o *GetTagItemsInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
+
+	rw.WriteHeader(500)
+}

@@ -104,3 +104,27 @@ func (o *GetHighQualityItemsNotFound) WriteResponse(rw http.ResponseWriter, prod
 
 	rw.WriteHeader(404)
 }
+
+// GetHighQualityItemsInternalServerErrorCode is the HTTP code returned for type GetHighQualityItemsInternalServerError
+const GetHighQualityItemsInternalServerErrorCode int = 500
+
+/*GetHighQualityItemsInternalServerError Internal Server Error
+
+swagger:response getHighQualityItemsInternalServerError
+*/
+type GetHighQualityItemsInternalServerError struct {
+}
+
+// NewGetHighQualityItemsInternalServerError creates GetHighQualityItemsInternalServerError with default headers values
+func NewGetHighQualityItemsInternalServerError() *GetHighQualityItemsInternalServerError {
+
+	return &GetHighQualityItemsInternalServerError{}
+}
+
+// WriteResponse to the client
+func (o *GetHighQualityItemsInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
+
+	rw.WriteHeader(500)
+}
