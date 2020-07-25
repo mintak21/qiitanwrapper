@@ -24,6 +24,10 @@ var client = &http.Client{
 	Timeout: 3 * time.Second,
 }
 
+func init() {
+	strfmt.MarshalFormat = strfmt.ISO8601LocalTime
+}
+
 // NewGetTagItemsHandler handles a request for getting tag items
 func NewGetTagItemsHandler() items.GetTagItemsHandler {
 	return &tagItemsHandler{}
