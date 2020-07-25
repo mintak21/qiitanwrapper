@@ -6,6 +6,7 @@ import (
 	"crypto/tls"
 	"net/http"
 
+	"github.com/dre1080/recovr"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
@@ -83,5 +84,6 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
-	return mymiddleware.AccessLog(handler)
+	recovery := recovr.New()
+	return recovery(mymiddleware.AccessLog(handler))
 }

@@ -16,7 +16,6 @@ type statusCodeWrapperResponseWriter struct {
 	statusCode int
 }
 
-// NewStatusCodeWrapperResponseWriter creates statusCode Wrapper Response Writer
 func newStatusCodeWrapperResponseWriter(w http.ResponseWriter) *statusCodeWrapperResponseWriter {
 	return &statusCodeWrapperResponseWriter{
 		writer:     w,
@@ -24,12 +23,13 @@ func newStatusCodeWrapperResponseWriter(w http.ResponseWriter) *statusCodeWrappe
 	}
 }
 
+// WriteHeader overrides http.ResponseWriter.WriteHeader : records statusCode
 func (w *statusCodeWrapperResponseWriter) WriteHeader(code int) {
 	w.statusCode = code
 	w.writer.WriteHeader(code)
 }
 
-// AccessLog logging when recieve request exclude health route
+// AccessLog logging when receive request exclude health route
 func AccessLog(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
