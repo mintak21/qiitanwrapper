@@ -38,7 +38,7 @@ func (h *tagItemsHandler) Handle(params items.GetTagItemsParams) middleware.Resp
 		log.WithFields(log.Fields{
 			"err": err,
 		}).Error(("failed to send request to Qiita API"))
-		return items.NewGetTagItemsInternalServerError()
+		return items.NewGetTagItemsInternalServerError().WithPayload(&genModel.Error{Message: err.Error()})
 	}
 	return items.NewGetTagItemsOK().WithPayload(h.res2Model(response))
 }

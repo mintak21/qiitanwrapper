@@ -65,6 +65,11 @@ const SyncTagItemsBadRequestCode int = 400
 swagger:response syncTagItemsBadRequest
 */
 type SyncTagItemsBadRequest struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
 }
 
 // NewSyncTagItemsBadRequest creates SyncTagItemsBadRequest with default headers values
@@ -73,12 +78,27 @@ func NewSyncTagItemsBadRequest() *SyncTagItemsBadRequest {
 	return &SyncTagItemsBadRequest{}
 }
 
+// WithPayload adds the payload to the sync tag items bad request response
+func (o *SyncTagItemsBadRequest) WithPayload(payload *models.Error) *SyncTagItemsBadRequest {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the sync tag items bad request response
+func (o *SyncTagItemsBadRequest) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *SyncTagItemsBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(400)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }
 
 // SyncTagItemsNotFoundCode is the HTTP code returned for type SyncTagItemsNotFound
@@ -89,6 +109,11 @@ const SyncTagItemsNotFoundCode int = 404
 swagger:response syncTagItemsNotFound
 */
 type SyncTagItemsNotFound struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
 }
 
 // NewSyncTagItemsNotFound creates SyncTagItemsNotFound with default headers values
@@ -97,12 +122,27 @@ func NewSyncTagItemsNotFound() *SyncTagItemsNotFound {
 	return &SyncTagItemsNotFound{}
 }
 
+// WithPayload adds the payload to the sync tag items not found response
+func (o *SyncTagItemsNotFound) WithPayload(payload *models.Error) *SyncTagItemsNotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the sync tag items not found response
+func (o *SyncTagItemsNotFound) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *SyncTagItemsNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(404)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }
 
 // SyncTagItemsInternalServerErrorCode is the HTTP code returned for type SyncTagItemsInternalServerError
@@ -113,6 +153,11 @@ const SyncTagItemsInternalServerErrorCode int = 500
 swagger:response syncTagItemsInternalServerError
 */
 type SyncTagItemsInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
 }
 
 // NewSyncTagItemsInternalServerError creates SyncTagItemsInternalServerError with default headers values
@@ -121,10 +166,25 @@ func NewSyncTagItemsInternalServerError() *SyncTagItemsInternalServerError {
 	return &SyncTagItemsInternalServerError{}
 }
 
+// WithPayload adds the payload to the sync tag items internal server error response
+func (o *SyncTagItemsInternalServerError) WithPayload(payload *models.Error) *SyncTagItemsInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the sync tag items internal server error response
+func (o *SyncTagItemsInternalServerError) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *SyncTagItemsInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }

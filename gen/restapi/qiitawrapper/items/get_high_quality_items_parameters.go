@@ -12,6 +12,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/validate"
 )
 
 // NewGetHighQualityItemsParams creates a new GetHighQualityItemsParams object
@@ -31,6 +32,7 @@ type GetHighQualityItemsParams struct {
 	HTTPRequest *http.Request `json:"-"`
 
 	/*
+	  Pattern: [0-9]{6}
 	  In: query
 	*/
 	Month *string
@@ -72,6 +74,20 @@ func (o *GetHighQualityItemsParams) bindMonth(rawData []string, hasKey bool, for
 	}
 
 	o.Month = &raw
+
+	if err := o.validateMonth(formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// validateMonth carries on validations for parameter Month
+func (o *GetHighQualityItemsParams) validateMonth(formats strfmt.Registry) error {
+
+	if err := validate.Pattern("month", "query", (*o.Month), `[0-9]{6}`); err != nil {
+		return err
+	}
 
 	return nil
 }

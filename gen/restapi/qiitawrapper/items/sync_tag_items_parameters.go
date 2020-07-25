@@ -31,7 +31,8 @@ type SyncTagItemsParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*
+	/*取得対象の日付
+	  Pattern: [0-9]{8}
 	  In: query
 	*/
 	Date *strfmt.Date
@@ -98,6 +99,10 @@ func (o *SyncTagItemsParams) bindDate(rawData []string, hasKey bool, formats str
 
 // validateDate carries on validations for parameter Date
 func (o *SyncTagItemsParams) validateDate(formats strfmt.Registry) error {
+
+	if err := validate.Pattern("date", "query", (*o.Date).String(), `[0-9]{8}`); err != nil {
+		return err
+	}
 
 	if err := validate.FormatOf("date", "query", "date", o.Date.String(), formats); err != nil {
 		return err

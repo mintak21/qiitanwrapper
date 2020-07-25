@@ -65,6 +65,11 @@ const GetTagItemsBadRequestCode int = 400
 swagger:response getTagItemsBadRequest
 */
 type GetTagItemsBadRequest struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
 }
 
 // NewGetTagItemsBadRequest creates GetTagItemsBadRequest with default headers values
@@ -73,12 +78,27 @@ func NewGetTagItemsBadRequest() *GetTagItemsBadRequest {
 	return &GetTagItemsBadRequest{}
 }
 
+// WithPayload adds the payload to the get tag items bad request response
+func (o *GetTagItemsBadRequest) WithPayload(payload *models.Error) *GetTagItemsBadRequest {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get tag items bad request response
+func (o *GetTagItemsBadRequest) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *GetTagItemsBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(400)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }
 
 // GetTagItemsNotFoundCode is the HTTP code returned for type GetTagItemsNotFound
@@ -89,6 +109,11 @@ const GetTagItemsNotFoundCode int = 404
 swagger:response getTagItemsNotFound
 */
 type GetTagItemsNotFound struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
 }
 
 // NewGetTagItemsNotFound creates GetTagItemsNotFound with default headers values
@@ -97,12 +122,27 @@ func NewGetTagItemsNotFound() *GetTagItemsNotFound {
 	return &GetTagItemsNotFound{}
 }
 
+// WithPayload adds the payload to the get tag items not found response
+func (o *GetTagItemsNotFound) WithPayload(payload *models.Error) *GetTagItemsNotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get tag items not found response
+func (o *GetTagItemsNotFound) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *GetTagItemsNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(404)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }
 
 // GetTagItemsInternalServerErrorCode is the HTTP code returned for type GetTagItemsInternalServerError
@@ -113,6 +153,11 @@ const GetTagItemsInternalServerErrorCode int = 500
 swagger:response getTagItemsInternalServerError
 */
 type GetTagItemsInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
 }
 
 // NewGetTagItemsInternalServerError creates GetTagItemsInternalServerError with default headers values
@@ -121,10 +166,25 @@ func NewGetTagItemsInternalServerError() *GetTagItemsInternalServerError {
 	return &GetTagItemsInternalServerError{}
 }
 
+// WithPayload adds the payload to the get tag items internal server error response
+func (o *GetTagItemsInternalServerError) WithPayload(payload *models.Error) *GetTagItemsInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get tag items internal server error response
+func (o *GetTagItemsInternalServerError) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *GetTagItemsInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }

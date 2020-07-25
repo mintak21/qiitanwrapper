@@ -65,6 +65,11 @@ const GetHighQualityItemsBadRequestCode int = 400
 swagger:response getHighQualityItemsBadRequest
 */
 type GetHighQualityItemsBadRequest struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
 }
 
 // NewGetHighQualityItemsBadRequest creates GetHighQualityItemsBadRequest with default headers values
@@ -73,12 +78,27 @@ func NewGetHighQualityItemsBadRequest() *GetHighQualityItemsBadRequest {
 	return &GetHighQualityItemsBadRequest{}
 }
 
+// WithPayload adds the payload to the get high quality items bad request response
+func (o *GetHighQualityItemsBadRequest) WithPayload(payload *models.Error) *GetHighQualityItemsBadRequest {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get high quality items bad request response
+func (o *GetHighQualityItemsBadRequest) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *GetHighQualityItemsBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(400)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }
 
 // GetHighQualityItemsNotFoundCode is the HTTP code returned for type GetHighQualityItemsNotFound
@@ -89,6 +109,11 @@ const GetHighQualityItemsNotFoundCode int = 404
 swagger:response getHighQualityItemsNotFound
 */
 type GetHighQualityItemsNotFound struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
 }
 
 // NewGetHighQualityItemsNotFound creates GetHighQualityItemsNotFound with default headers values
@@ -97,12 +122,27 @@ func NewGetHighQualityItemsNotFound() *GetHighQualityItemsNotFound {
 	return &GetHighQualityItemsNotFound{}
 }
 
+// WithPayload adds the payload to the get high quality items not found response
+func (o *GetHighQualityItemsNotFound) WithPayload(payload *models.Error) *GetHighQualityItemsNotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get high quality items not found response
+func (o *GetHighQualityItemsNotFound) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *GetHighQualityItemsNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(404)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }
 
 // GetHighQualityItemsInternalServerErrorCode is the HTTP code returned for type GetHighQualityItemsInternalServerError
@@ -113,6 +153,11 @@ const GetHighQualityItemsInternalServerErrorCode int = 500
 swagger:response getHighQualityItemsInternalServerError
 */
 type GetHighQualityItemsInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
 }
 
 // NewGetHighQualityItemsInternalServerError creates GetHighQualityItemsInternalServerError with default headers values
@@ -121,10 +166,25 @@ func NewGetHighQualityItemsInternalServerError() *GetHighQualityItemsInternalSer
 	return &GetHighQualityItemsInternalServerError{}
 }
 
+// WithPayload adds the payload to the get high quality items internal server error response
+func (o *GetHighQualityItemsInternalServerError) WithPayload(payload *models.Error) *GetHighQualityItemsInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get high quality items internal server error response
+func (o *GetHighQualityItemsInternalServerError) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *GetHighQualityItemsInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }

@@ -18,13 +18,19 @@ var (
 
 func init() {
 	SwaggerJSON = json.RawMessage([]byte(`{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "schemes": [
     "http"
   ],
   "swagger": "2.0",
   "info": {
     "description": "QiitaAPIのラッパーAPIです。",
-    "title": "mintak's Qiita Wrapper",
+    "title": "mintak's Qiita Wrapper API",
     "license": {
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -49,6 +55,7 @@ func init() {
         "operationId": "getHighQualityItems",
         "parameters": [
           {
+            "pattern": "[0-9]{6}",
             "type": "string",
             "format": "yyyy-mm",
             "name": "month",
@@ -63,13 +70,22 @@ func init() {
             }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -97,8 +113,10 @@ func init() {
             "required": true
           },
           {
+            "pattern": "[0-9]{8}",
             "type": "string",
             "format": "date",
+            "description": "取得対象の日付",
             "name": "date",
             "in": "query"
           }
@@ -111,13 +129,22 @@ func init() {
             }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -150,19 +177,39 @@ func init() {
             }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
     }
   },
   "definitions": {
+    "Error": {
+      "description": "Error Status model",
+      "type": "object",
+      "title": "Error",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Bad Request"
+        }
+      }
+    },
     "Item": {
       "type": "object",
       "properties": {
@@ -269,13 +316,19 @@ func init() {
   ]
 }`))
 	FlatSwaggerJSON = json.RawMessage([]byte(`{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "schemes": [
     "http"
   ],
   "swagger": "2.0",
   "info": {
     "description": "QiitaAPIのラッパーAPIです。",
-    "title": "mintak's Qiita Wrapper",
+    "title": "mintak's Qiita Wrapper API",
     "license": {
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -300,6 +353,7 @@ func init() {
         "operationId": "getHighQualityItems",
         "parameters": [
           {
+            "pattern": "[0-9]{6}",
             "type": "string",
             "format": "yyyy-mm",
             "name": "month",
@@ -314,13 +368,22 @@ func init() {
             }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -348,8 +411,10 @@ func init() {
             "required": true
           },
           {
+            "pattern": "[0-9]{8}",
             "type": "string",
             "format": "date",
+            "description": "取得対象の日付",
             "name": "date",
             "in": "query"
           }
@@ -362,13 +427,22 @@ func init() {
             }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -401,19 +475,39 @@ func init() {
             }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
     }
   },
   "definitions": {
+    "Error": {
+      "description": "Error Status model",
+      "type": "object",
+      "title": "Error",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Bad Request"
+        }
+      }
+    },
     "Item": {
       "type": "object",
       "properties": {
