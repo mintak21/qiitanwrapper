@@ -58,7 +58,7 @@ paths:
         - name: date
           in: query
           type: string
-          format: yyyy-mm-dd
+          format: date
           required: false
       responses:
         200:
@@ -139,7 +139,7 @@ definitions:
       created_at:
         type: string
         description: 投稿日時
-        format: yyyyMMddThhmmssZ
+        format: date-time
         example: "20200707T124012+09:00"
   Statistics:
     type: object
