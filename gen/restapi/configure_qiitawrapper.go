@@ -6,10 +6,13 @@ import (
 	"crypto/tls"
 	"net/http"
 
+	"github.com/carbocation/interpose/adaptors"
 	"github.com/dre1080/recovr"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/meatballhat/negroni-logrus"
+	"github.com/sirupsen/logrus"
 
 	mymiddleware "github.com/mintak21/qiitaWrapper/api/middleware"
 	"github.com/mintak21/qiitaWrapper/gen/restapi/qiitawrapper"
@@ -85,5 +88,6 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	recovery := recovr.New()
-	return recovery(mymiddleware.AccessLog(handler))
+	logViaLogrus := adaptors.FromNegroni(negronilogrus.NewCustomMiddleware(logrus.InfoLevel, &logrus.JSONFormatter{}, "web"))
+	return recovery(logViaLogrus(handler))
 }
