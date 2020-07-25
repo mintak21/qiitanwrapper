@@ -3,6 +3,7 @@ module github.com/mintak21/qiitaWrapper
 go 1.13
 
 require (
+	github.com/didip/tollbooth v4.0.2+incompatible
 	github.com/dre1080/recovr v1.0.3
 	github.com/go-openapi/errors v0.19.6
 	github.com/go-openapi/loads v0.19.5
@@ -12,6 +13,7 @@ require (
 	github.com/go-openapi/swag v0.19.9
 	github.com/go-openapi/validate v0.19.10
 	github.com/jessevdk/go-flags v1.4.0
+	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/sirupsen/logrus v1.4.2
 	golang.org/x/net v0.0.0-20200707034311-ab3426394381
 )

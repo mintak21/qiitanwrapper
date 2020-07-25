@@ -40,6 +40,7 @@ func AccessLog(next http.Handler) http.Handler {
 
 		if r.URL.Path != healthPath {
 			elapsed := time.Since(start)
+			// FIXME middlewareのステータスコードは反映されない
 			code := lrw.statusCode
 			entry := log.WithFields(log.Fields{
 				"path":        r.URL.Path,
