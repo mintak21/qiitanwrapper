@@ -12,7 +12,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/meatballhat/negroni-logrus"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 
 	mymiddleware "github.com/mintak21/qiitaWrapper/api/middleware"
 	"github.com/mintak21/qiitaWrapper/gen/restapi/qiitawrapper"
@@ -28,12 +28,11 @@ func configureFlags(api *qiitawrapper.QiitawrapperAPI) {
 func configureAPI(api *qiitawrapper.QiitawrapperAPI) http.Handler {
 	// configure the api here
 	api.ServeError = errors.ServeError
+	errors.DefaultHTTPCode = http.StatusBadRequest
 
 	// Set your custom logger if needed. Default one is log.Printf
 	// Expected interface func(string, ...interface{})
-	//
-	// Example:
-	// api.Logger = log.Printf
+	api.Logger = log.Infof
 
 	api.UseSwaggerUI()
 	// To continue using redoc as your UI, uncomment the following line
@@ -88,6 +87,6 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	recovery := recovr.New()
-	logViaLogrus := adaptors.FromNegroni(negronilogrus.NewCustomMiddleware(logrus.InfoLevel, &logrus.JSONFormatter{}, "web"))
+	logViaLogrus := adaptors.FromNegroni(negronilogrus.NewCustomMiddleware(log.InfoLevel, &log.JSONFormatter{}, "web"))
 	return recovery(logViaLogrus(handler))
 }
