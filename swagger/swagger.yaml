@@ -175,11 +175,13 @@ definitions:
       lgtms:
         type: number
         format: int64
+        x-omitempty: false
         description: LGTM数
         example: 2
       stocks:
         type: number
         format: int64
+        x-omitempty: false
         description: ストック数（ストックしているユーザー数）
         example: 1
   User:
