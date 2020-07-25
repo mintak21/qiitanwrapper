@@ -33,7 +33,7 @@ type tagItemsHandler struct{}
 
 // Handle the get entry request
 func (h *tagItemsHandler) Handle(params items.GetTagItemsParams) middleware.Responder {
-	response, err := h.sendReq2Qiita(params)
+	response, err := h.sendRequest2Qiita(params)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"err": err,
@@ -67,7 +67,7 @@ func (h *tagItemsHandler) res2Model(resItems []*apiModel.QiitaItem) *genModel.It
 	}
 }
 
-func (h *tagItemsHandler) sendReq2Qiita(params items.GetTagItemsParams) ([]*apiModel.QiitaItem, error) {
+func (h *tagItemsHandler) sendRequest2Qiita(params items.GetTagItemsParams) ([]*apiModel.QiitaItem, error) {
 	request, err := http.NewRequest("GET", qiitaItemsURL, nil)
 	if err != nil {
 		return nil, err
