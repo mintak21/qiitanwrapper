@@ -1,2 +1,5 @@
-# qiitanWrapper
-QiitaWrapperAPI
+# QiitaAPIのWrapper
+指定タグがついた記事を更新日付降順で取得するAPIおよび
+指定月に登録された記事のうち、LGTM数の多い順に50記事取得するAPI
+
+k8sクラスタ上で動くAPIのサンプルという意味合いで作成
