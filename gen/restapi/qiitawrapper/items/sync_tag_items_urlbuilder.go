@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 )
 
 // SyncTagItemsURL generates an URL for the sync tag items operation
@@ -19,6 +20,7 @@ type SyncTagItemsURL struct {
 	Tag string
 
 	Date *strfmt.Date
+	Page *int64
 
 	_basePath string
 	// avoid unkeyed usage
@@ -67,6 +69,14 @@ func (o *SyncTagItemsURL) Build() (*url.URL, error) {
 	}
 	if dateQ != "" {
 		qs.Set("date", dateQ)
+	}
+
+	var pageQ string
+	if o.Page != nil {
+		pageQ = swag.FormatInt64(*o.Page)
+	}
+	if pageQ != "" {
+		qs.Set("page", pageQ)
 	}
 
 	_result.RawQuery = qs.Encode()

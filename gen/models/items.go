@@ -21,13 +21,13 @@ import (
 type Items struct {
 
 	// 次のページがあるかどうか
-	HasNext bool `json:"has_next,omitempty"`
+	HasNext bool `json:"has_next"`
 
 	// items
 	Items []*Item `json:"items"`
 
 	// 現在のページ
-	Page int64 `json:"page,omitempty"`
+	Page int64 `json:"page"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
@@ -35,13 +35,13 @@ func (m *Items) UnmarshalJSON(data []byte) error {
 	var props struct {
 
 		// 次のページがあるかどうか
-		HasNext bool `json:"has_next,omitempty"`
+		HasNext bool `json:"has_next"`
 
 		// items
 		Items []*Item `json:"items"`
 
 		// 現在のページ
-		Page int64 `json:"page,omitempty"`
+		Page int64 `json:"page"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))

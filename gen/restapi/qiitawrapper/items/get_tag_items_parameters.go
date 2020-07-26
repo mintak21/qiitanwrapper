@@ -9,15 +9,26 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // NewGetTagItemsParams creates a new GetTagItemsParams object
-// no default values defined in spec.
+// with the default values initialized.
 func NewGetTagItemsParams() GetTagItemsParams {
 
-	return GetTagItemsParams{}
+	var (
+		// initialize parameters with default values
+
+		pageDefault = int64(1)
+	)
+
+	return GetTagItemsParams{
+		Page: &pageDefault,
+	}
 }
 
 // GetTagItemsParams contains all the bound params for the get tag items operation
@@ -29,6 +40,12 @@ type GetTagItemsParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
+	/*取得するページ
+	  Minimum: 1
+	  In: query
+	  Default: 1
+	*/
+	Page *int64
 	/*取得する記事のタグ
 	  Required: true
 	  In: path
@@ -45,6 +62,13 @@ func (o *GetTagItemsParams) BindRequest(r *http.Request, route *middleware.Match
 
 	o.HTTPRequest = r
 
+	qs := runtime.Values(r.URL.Query())
+
+	qPage, qhkPage, _ := qs.GetOK("page")
+	if err := o.bindPage(qPage, qhkPage, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
 	rTag, rhkTag, _ := route.Params.GetOK("tag")
 	if err := o.bindTag(rTag, rhkTag, route.Formats); err != nil {
 		res = append(res, err)
@@ -53,6 +77,43 @@ func (o *GetTagItemsParams) BindRequest(r *http.Request, route *middleware.Match
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// bindPage binds and validates parameter Page from query.
+func (o *GetTagItemsParams) bindPage(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+	// AllowEmptyValue: false
+	if raw == "" { // empty values pass all other validations
+		// Default values have been previously initialized by NewGetTagItemsParams()
+		return nil
+	}
+
+	value, err := swag.ConvertInt64(raw)
+	if err != nil {
+		return errors.InvalidType("page", "query", "int64", raw)
+	}
+	o.Page = &value
+
+	if err := o.validatePage(formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// validatePage carries on validations for parameter Page
+func (o *GetTagItemsParams) validatePage(formats strfmt.Registry) error {
+
+	if err := validate.MinimumInt("page", "query", int64(*o.Page), 1, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 

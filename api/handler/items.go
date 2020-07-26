@@ -1,53 +1,92 @@
 package handler
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	"time"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"
 	apiModel "github.com/mintak21/qiitaWrapper/api/model"
+	"github.com/mintak21/qiitaWrapper/api/util/client"
 	genModel "github.com/mintak21/qiitaWrapper/gen/models"
 	"github.com/mintak21/qiitaWrapper/gen/restapi/qiitawrapper/items"
 	log "github.com/sirupsen/logrus"
 )
 
 const (
-	qiitaItemsURL = "https://qiita.com/api/v2/items"
-	perPage       = 5
+	perPage = 50
 )
 
-var client = &http.Client{
-	Timeout: 3 * time.Second,
-}
-
 func init() {
-	strfmt.MarshalFormat = strfmt.ISO8601LocalTime
+	strfmt.MarshalFormat = strfmt.RFC3339Millis
 }
 
 // NewGetTagItemsHandler handles a request for getting tag items
 func NewGetTagItemsHandler() items.GetTagItemsHandler {
-	return &tagItemsHandler{}
+	return &tagItemsHandler{
+		client: client.NewQiitaClient(),
+	}
 }
 
-type tagItemsHandler struct{}
+type tagItemsHandler struct {
+	client client.QiitaClient
+}
+
+// NewSyncTagItemsHandler handles a request for getting target day tag items
+func NewSyncTagItemsHandler() items.SyncTagItemsHandler {
+	return &syncTagItemsHandler{
+		client: client.NewQiitaClient(),
+	}
+}
+
+type syncTagItemsHandler struct {
+	client client.QiitaClient
+}
 
 // Handle the get entry request
 func (h *tagItemsHandler) Handle(params items.GetTagItemsParams) middleware.Responder {
-	response, err := h.sendRequest2Qiita(params)
+	query := fmt.Sprintf("tag:%s", params.Tag)
+	response, hasNext, err := sendGetItemRequest(h.client, int(*params.Page), query)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"err": err,
 		}).Error(("failed to send request to Qiita API"))
 		return items.NewGetTagItemsInternalServerError().WithPayload(&genModel.Error{Message: err.Error()})
 	}
-	return items.NewGetTagItemsOK().WithPayload(h.res2Model(response))
+	return items.NewGetTagItemsOK().WithPayload(toModel(response, *params.Page, hasNext))
 }
 
-func (h *tagItemsHandler) res2Model(resItems []*apiModel.QiitaItem) *genModel.Items {
+func (h *syncTagItemsHandler) Handle(params items.SyncTagItemsParams) middleware.Responder {
+	var targetDate string
+	if params.Date == nil {
+		targetDate = time.Now().Format(strfmt.RFC3339FullDate)
+	} else {
+		targetDate = params.Date.String()
+	}
+	query := fmt.Sprintf("tag:%s created:<=%s created:>=%s", params.Tag, targetDate, targetDate)
+	response, hasNext, err := sendGetItemRequest(h.client, int(*params.Page), query)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Error(("failed to send request to Qiita API"))
+		return items.NewSyncTagItemsInternalServerError().WithPayload(&genModel.Error{Message: err.Error()})
+	}
+	return items.NewSyncTagItemsOK().WithPayload(toModel(response, *params.Page, hasNext))
+}
+
+func sendGetItemRequest(cl client.QiitaClient, page int, query string) ([]*apiModel.QiitaItem, bool, error) {
+	parameter := client.NewGetItemsParameter(page, perPage+1, query)
+	qiitaItems, err := cl.GetItems(parameter)
+	if err != nil {
+		return nil, false, err
+	}
+	if perPage < len(qiitaItems) {
+		return qiitaItems[0 : len(qiitaItems)-1], true, err
+	}
+	return qiitaItems, false, nil
+}
+
+func toModel(resItems []*apiModel.QiitaItem, page int64, hasNext bool) *genModel.Items {
 	var items []*genModel.Item
 	for _, resItem := range resItems {
 		item := genModel.Item{
@@ -65,41 +104,8 @@ func (h *tagItemsHandler) res2Model(resItems []*apiModel.QiitaItem) *genModel.It
 		items = append(items, &item)
 	}
 	return &genModel.Items{
-		HasNext: false,
-		Page:    1,
+		HasNext: hasNext,
+		Page:    page,
 		Items:   items,
 	}
-}
-
-func (h *tagItemsHandler) sendRequest2Qiita(params items.GetTagItemsParams) ([]*apiModel.QiitaItem, error) {
-	request, err := http.NewRequest("GET", qiitaItemsURL, nil)
-	if err != nil {
-		return nil, err
-	}
-	// build query
-	requestParams := request.URL.Query()
-	requestParams.Add("page", fmt.Sprintf("%d", 1))
-	requestParams.Add("per_page", fmt.Sprintf("%d", perPage))
-	requestParams.Add("query", fmt.Sprintf("tag:%s", params.Tag))
-	request.URL.RawQuery = requestParams.Encode()
-
-	resp, err := client.Do(request)
-	if err != nil {
-		return nil, err
-	}
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("request does not succeeded: %s", resp.Status)
-	}
-	defer resp.Body.Close()
-
-	byteArray, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-	var qiitaItems []*apiModel.QiitaItem
-	err = json.Unmarshal(byteArray, &qiitaItems)
-	if err != nil {
-		return nil, err
-	}
-	return qiitaItems, nil
 }

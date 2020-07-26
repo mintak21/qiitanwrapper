@@ -28,6 +28,12 @@ paths:
           type: string
           description: 取得する記事のタグ
           required: true
+        - type: integer
+          in: query
+          name: page
+          description: 取得するページ
+          minimum: 1
+          default: 1
       responses:
         '200':
           description: OK
@@ -67,7 +73,12 @@ paths:
           type: string
           format: date
           description: 取得対象の日付
-          pattern: '[0-9]{8}'
+        - type: integer
+          in: query
+          name: page
+          description: 取得するページ
+          minimum: 1
+          default: 1
       responses:
         '200':
           description: OK
@@ -97,12 +108,12 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: month
+        - name: date
           in: query
           type: string
-          format: yyyy-mm
+          format: date
           required: false
-          pattern: '[0-9]{6}'
+          description: 対象日付（日付形式で指定し、その月を対象とする）
       responses:
         '200':
           description: OK
@@ -131,10 +142,12 @@ definitions:
       page:
         type: number
         format: int64
+        x-omitempty: false
         description: 現在のページ
         example: 1
       has_next:
         type: boolean
+        x-omitempty: false
         description: 次のページがあるかどうか
   Item:
     type: object

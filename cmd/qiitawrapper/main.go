@@ -40,6 +40,7 @@ func main() {
 
 	// Set Handler
 	api.ItemsGetTagItemsHandler = handler.NewGetTagItemsHandler()
+	api.ItemsSyncTagItemsHandler = handler.NewSyncTagItemsHandler()
 
 	// configure server
 	server.ConfigureAPI()

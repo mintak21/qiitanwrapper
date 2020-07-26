@@ -55,10 +55,10 @@ func init() {
         "operationId": "getHighQualityItems",
         "parameters": [
           {
-            "pattern": "[0-9]{6}",
             "type": "string",
-            "format": "yyyy-mm",
-            "name": "month",
+            "format": "date",
+            "description": "対象日付（日付形式で指定し、その月を対象とする）",
+            "name": "date",
             "in": "query"
           }
         ],
@@ -113,11 +113,18 @@ func init() {
             "required": true
           },
           {
-            "pattern": "[0-9]{8}",
             "type": "string",
             "format": "date",
             "description": "取得対象の日付",
             "name": "date",
+            "in": "query"
+          },
+          {
+            "minimum": 1,
+            "type": "integer",
+            "default": 1,
+            "description": "取得するページ",
+            "name": "page",
             "in": "query"
           }
         ],
@@ -167,6 +174,14 @@ func init() {
             "name": "tag",
             "in": "path",
             "required": true
+          },
+          {
+            "minimum": 1,
+            "type": "integer",
+            "default": 1,
+            "description": "取得するページ",
+            "name": "page",
+            "in": "query"
           }
         ],
         "responses": {
@@ -259,7 +274,8 @@ func init() {
       "properties": {
         "has_next": {
           "description": "次のページがあるかどうか",
-          "type": "boolean"
+          "type": "boolean",
+          "x-omitempty": false
         },
         "items": {
           "type": "array",
@@ -271,6 +287,7 @@ func init() {
           "description": "現在のページ",
           "type": "number",
           "format": "int64",
+          "x-omitempty": false,
           "example": 1
         }
       }
@@ -355,10 +372,10 @@ func init() {
         "operationId": "getHighQualityItems",
         "parameters": [
           {
-            "pattern": "[0-9]{6}",
             "type": "string",
-            "format": "yyyy-mm",
-            "name": "month",
+            "format": "date",
+            "description": "対象日付（日付形式で指定し、その月を対象とする）",
+            "name": "date",
             "in": "query"
           }
         ],
@@ -413,11 +430,18 @@ func init() {
             "required": true
           },
           {
-            "pattern": "[0-9]{8}",
             "type": "string",
             "format": "date",
             "description": "取得対象の日付",
             "name": "date",
+            "in": "query"
+          },
+          {
+            "minimum": 1,
+            "type": "integer",
+            "default": 1,
+            "description": "取得するページ",
+            "name": "page",
             "in": "query"
           }
         ],
@@ -467,6 +491,14 @@ func init() {
             "name": "tag",
             "in": "path",
             "required": true
+          },
+          {
+            "minimum": 1,
+            "type": "integer",
+            "default": 1,
+            "description": "取得するページ",
+            "name": "page",
+            "in": "query"
           }
         ],
         "responses": {
@@ -559,7 +591,8 @@ func init() {
       "properties": {
         "has_next": {
           "description": "次のページがあるかどうか",
-          "type": "boolean"
+          "type": "boolean",
+          "x-omitempty": false
         },
         "items": {
           "type": "array",
@@ -571,6 +604,7 @@ func init() {
           "description": "現在のページ",
           "type": "number",
           "format": "int64",
+          "x-omitempty": false,
           "example": 1
         }
       }

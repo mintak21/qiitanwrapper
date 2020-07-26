@@ -2,7 +2,7 @@ package model
 
 import "time"
 
-// QiitaItems is Response of Qiita API v2
+// QiitaItem is Response of Qiita API v2 Item
 type QiitaItem struct {
 	RenderedBody  string    `json:"rendered_body"`
 	Body          string    `json:"body"`
@@ -46,5 +46,6 @@ type QiitaItem struct {
 		TwitterScreenName string `json:"twitter_screen_name"`
 		WebsiteURL        string `json:"website_url"`
 	} `json:"user"`
-	PageViewsCount int `json:"page_views_count"`
+	PageViewsCount int  `json:"page_views_count"`
+	HasNext        bool `json:"-"`
 }

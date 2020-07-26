@@ -9,11 +9,13 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
+
+	"github.com/go-openapi/strfmt"
 )
 
 // GetHighQualityItemsURL generates an URL for the get high quality items operation
 type GetHighQualityItemsURL struct {
-	Month *string
+	Date *strfmt.Date
 
 	_basePath string
 	// avoid unkeyed usage
@@ -49,12 +51,12 @@ func (o *GetHighQualityItemsURL) Build() (*url.URL, error) {
 
 	qs := make(url.Values)
 
-	var monthQ string
-	if o.Month != nil {
-		monthQ = *o.Month
+	var dateQ string
+	if o.Date != nil {
+		dateQ = o.Date.String()
 	}
-	if monthQ != "" {
-		qs.Set("month", monthQ)
+	if dateQ != "" {
+		qs.Set("date", dateQ)
 	}
 
 	_result.RawQuery = qs.Encode()

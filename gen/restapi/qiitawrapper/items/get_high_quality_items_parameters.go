@@ -31,11 +31,10 @@ type GetHighQualityItemsParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*
-	  Pattern: [0-9]{6}
+	/*対象日付（日付形式で指定し、その月を対象とする）
 	  In: query
 	*/
-	Month *string
+	Date *strfmt.Date
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -49,8 +48,8 @@ func (o *GetHighQualityItemsParams) BindRequest(r *http.Request, route *middlewa
 
 	qs := runtime.Values(r.URL.Query())
 
-	qMonth, qhkMonth, _ := qs.GetOK("month")
-	if err := o.bindMonth(qMonth, qhkMonth, route.Formats); err != nil {
+	qDate, qhkDate, _ := qs.GetOK("date")
+	if err := o.bindDate(qDate, qhkDate, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -60,8 +59,8 @@ func (o *GetHighQualityItemsParams) BindRequest(r *http.Request, route *middlewa
 	return nil
 }
 
-// bindMonth binds and validates parameter Month from query.
-func (o *GetHighQualityItemsParams) bindMonth(rawData []string, hasKey bool, formats strfmt.Registry) error {
+// bindDate binds and validates parameter Date from query.
+func (o *GetHighQualityItemsParams) bindDate(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -73,21 +72,25 @@ func (o *GetHighQualityItemsParams) bindMonth(rawData []string, hasKey bool, for
 		return nil
 	}
 
-	o.Month = &raw
+	// Format: date
+	value, err := formats.Parse("date", raw)
+	if err != nil {
+		return errors.InvalidType("date", "query", "strfmt.Date", raw)
+	}
+	o.Date = (value.(*strfmt.Date))
 
-	if err := o.validateMonth(formats); err != nil {
+	if err := o.validateDate(formats); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-// validateMonth carries on validations for parameter Month
-func (o *GetHighQualityItemsParams) validateMonth(formats strfmt.Registry) error {
+// validateDate carries on validations for parameter Date
+func (o *GetHighQualityItemsParams) validateDate(formats strfmt.Registry) error {
 
-	if err := validate.Pattern("month", "query", (*o.Month), `[0-9]{6}`); err != nil {
+	if err := validate.FormatOf("date", "query", "date", o.Date.String(), formats); err != nil {
 		return err
 	}
-
 	return nil
 }

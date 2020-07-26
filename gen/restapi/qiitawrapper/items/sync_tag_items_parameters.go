@@ -12,14 +12,23 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // NewSyncTagItemsParams creates a new SyncTagItemsParams object
-// no default values defined in spec.
+// with the default values initialized.
 func NewSyncTagItemsParams() SyncTagItemsParams {
 
-	return SyncTagItemsParams{}
+	var (
+		// initialize parameters with default values
+
+		pageDefault = int64(1)
+	)
+
+	return SyncTagItemsParams{
+		Page: &pageDefault,
+	}
 }
 
 // SyncTagItemsParams contains all the bound params for the sync tag items operation
@@ -32,10 +41,15 @@ type SyncTagItemsParams struct {
 	HTTPRequest *http.Request `json:"-"`
 
 	/*取得対象の日付
-	  Pattern: [0-9]{8}
 	  In: query
 	*/
 	Date *strfmt.Date
+	/*取得するページ
+	  Minimum: 1
+	  In: query
+	  Default: 1
+	*/
+	Page *int64
 	/*取得する記事のタグ
 	  Required: true
 	  In: path
@@ -56,6 +70,11 @@ func (o *SyncTagItemsParams) BindRequest(r *http.Request, route *middleware.Matc
 
 	qDate, qhkDate, _ := qs.GetOK("date")
 	if err := o.bindDate(qDate, qhkDate, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
+	qPage, qhkPage, _ := qs.GetOK("page")
+	if err := o.bindPage(qPage, qhkPage, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -100,13 +119,46 @@ func (o *SyncTagItemsParams) bindDate(rawData []string, hasKey bool, formats str
 // validateDate carries on validations for parameter Date
 func (o *SyncTagItemsParams) validateDate(formats strfmt.Registry) error {
 
-	if err := validate.Pattern("date", "query", (*o.Date).String(), `[0-9]{8}`); err != nil {
-		return err
-	}
-
 	if err := validate.FormatOf("date", "query", "date", o.Date.String(), formats); err != nil {
 		return err
 	}
+	return nil
+}
+
+// bindPage binds and validates parameter Page from query.
+func (o *SyncTagItemsParams) bindPage(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+	// AllowEmptyValue: false
+	if raw == "" { // empty values pass all other validations
+		// Default values have been previously initialized by NewSyncTagItemsParams()
+		return nil
+	}
+
+	value, err := swag.ConvertInt64(raw)
+	if err != nil {
+		return errors.InvalidType("page", "query", "int64", raw)
+	}
+	o.Page = &value
+
+	if err := o.validatePage(formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// validatePage carries on validations for parameter Page
+func (o *SyncTagItemsParams) validatePage(formats strfmt.Registry) error {
+
+	if err := validate.MinimumInt("page", "query", int64(*o.Page), 1, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 
