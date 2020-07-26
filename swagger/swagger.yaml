@@ -18,7 +18,7 @@ paths:
       tags:
         - items
       summary: 指定したタグの記事の取得
-      description: 指定したタグの記事の取得。1度に取得する件数は50固定。
+      description: 指定したタグの記事の取得。1度に取得する件数は100固定。
       operationId: getTagItems
       produces:
         - application/json
@@ -56,7 +56,7 @@ paths:
       tags:
         - items
       summary: 同期的にタグの記事を取得。
-      description: 指定日付に投稿された記事を一覧で取得。一度に取得できる記事の数は50固定。
+      description: 指定日付に投稿された記事を一覧で取得。一度に取得できる記事の数は100固定。
       operationId: syncTagItems
       consumes:
         - application/json
@@ -101,7 +101,7 @@ paths:
       tags:
         - items
       summary: LGTMの多い記事を取得。
-      description: 指定月に投稿された記事のうち、LGTM数の多い順に50個の記事を取得。
+      description: 指定月に投稿された記事のうち、LGTM数の多い順に100個の記事を取得。
       operationId: getHighQualityItems
       consumes:
         - application/json
@@ -187,14 +187,13 @@ definitions:
     properties:
       lgtms:
         type: number
-        format: int64
+        format: int
         x-omitempty: false
         description: LGTM数
         example: 2
       stocks:
         type: number
-        format: int64
-        x-omitempty: false
+        format: int
         description: ストック数（ストックしているユーザー数）
         example: 1
   User:

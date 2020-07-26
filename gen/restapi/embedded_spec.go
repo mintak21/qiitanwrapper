@@ -298,15 +298,14 @@ func init() {
         "lgtms": {
           "description": "LGTM数",
           "type": "number",
-          "format": "int64",
+          "format": "int",
           "x-omitempty": false,
           "example": 2
         },
         "stocks": {
           "description": "ストック数（ストックしているユーザー数）",
           "type": "number",
-          "format": "int64",
-          "x-omitempty": false,
+          "format": "int",
           "example": 1
         }
       }
@@ -615,15 +614,14 @@ func init() {
         "lgtms": {
           "description": "LGTM数",
           "type": "number",
-          "format": "int64",
+          "format": "int",
           "x-omitempty": false,
           "example": 2
         },
         "stocks": {
           "description": "ストック数（ストックしているユーザー数）",
           "type": "number",
-          "format": "int64",
-          "x-omitempty": false,
+          "format": "int",
           "example": 1
         }
       }

@@ -22,7 +22,7 @@ type Statistics struct {
 	Lgtms int64 `json:"lgtms"`
 
 	// ストック数（ストックしているユーザー数）
-	Stocks int64 `json:"stocks"`
+	Stocks int64 `json:"stocks,omitempty"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
@@ -33,7 +33,7 @@ func (m *Statistics) UnmarshalJSON(data []byte) error {
 		Lgtms int64 `json:"lgtms"`
 
 		// ストック数（ストックしているユーザー数）
-		Stocks int64 `json:"stocks"`
+		Stocks int64 `json:"stocks,omitempty"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))

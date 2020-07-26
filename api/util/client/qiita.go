@@ -22,6 +22,7 @@ const (
 // QiitaClient client to Qiita API
 type QiitaClient interface {
 	GetItems(param *GetItemsParameter) ([]*model.QiitaItem, error)
+	GetStockers(param *GetStockersParameter) ([]*model.QiitaStocker, error)
 }
 
 type qiitaClient struct {
@@ -38,6 +39,11 @@ type CommonParameter struct {
 type GetItemsParameter struct {
 	Common *CommonParameter
 	Query  string // ここの組み立ては改善ポイント
+}
+
+// GetStockersParameter parameters for GET /api/v2/items/:item_id/stockers
+type GetStockersParameter struct {
+	ItemID string `validate:"required"`
 }
 
 // NewQiitaClient creates qiitaClient
@@ -67,7 +73,6 @@ func (c *qiitaClient) GetItems(param *GetItemsParameter) ([]*model.QiitaItem, er
 	if err := validate.Struct(param); err != nil {
 		return nil, err
 	}
-	fmt.Println("query", param.Query)
 	resp, err := c.sendGetRequest(
 		fmt.Sprintf("%s%s", qiitaDomain, itemsEndpoint),
 		map[string]string{
@@ -84,6 +89,48 @@ func (c *qiitaClient) GetItems(param *GetItemsParameter) ([]*model.QiitaItem, er
 	err = json.Unmarshal(resp.Body(), &results)
 	if err != nil {
 		return nil, err
+	}
+	return results, nil
+}
+
+// NewGetStockersParameter creates GetStockersParameter
+func NewGetStockersParameter(itemID string) *GetStockersParameter {
+	return &GetStockersParameter{
+		ItemID: itemID,
+	}
+}
+
+// GetStockers send request to /api/v2/items/:item_id/stockers
+func (c *qiitaClient) GetStockers(param *GetStockersParameter) ([]*model.QiitaStocker, error) {
+	const perPage = 500
+	var currentPage int
+	validate := validator.New()
+	if err := validate.Struct(param); err != nil {
+		return nil, err
+	}
+	var results []*model.QiitaStocker
+	endPoint := fmt.Sprintf(stockersEndpoint, param.ItemID)
+	for {
+		var stockers []*model.QiitaStocker
+		currentPage++
+		resp, err := c.sendGetRequest(
+			fmt.Sprintf("%s%s", qiitaDomain, endPoint),
+			map[string]string{
+				"page":     strconv.Itoa(currentPage),
+				"per_page": strconv.Itoa(perPage),
+			},
+		)
+		if err != nil {
+			return nil, err
+		}
+		err = json.Unmarshal(resp.Body(), &stockers)
+		if err != nil {
+			return nil, err
+		}
+		results = append(results, stockers...)
+		if len(stockers) < perPage {
+			break
+		}
 	}
 	return results, nil
 }

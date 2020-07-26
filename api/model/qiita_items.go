@@ -2,7 +2,7 @@ package model
 
 import "time"
 
-// QiitaItem is Response of Qiita API v2 Item
+// QiitaItem is Response of Qiita API /api/v2/items
 type QiitaItem struct {
 	RenderedBody  string    `json:"rendered_body"`
 	Body          string    `json:"body"`
@@ -48,4 +48,24 @@ type QiitaItem struct {
 	} `json:"user"`
 	PageViewsCount int  `json:"page_views_count"`
 	HasNext        bool `json:"-"`
+}
+
+// QiitaStocker is Response of Qiita API /api/v2/items/:item_id/stockers
+type QiitaStocker struct {
+	Description       string `json:"description"`
+	FacebookID        string `json:"facebook_id"`
+	FolloweesCount    int    `json:"followees_count"`
+	FollowersCount    int    `json:"followers_count"`
+	GithubLoginName   string `json:"github_login_name"`
+	ID                string `json:"id"`
+	ItemsCount        int    `json:"items_count"`
+	LinkedinID        string `json:"linkedin_id"`
+	Location          string `json:"location"`
+	Name              string `json:"name"`
+	Organization      string `json:"organization"`
+	PermanentID       int    `json:"permanent_id"`
+	ProfileImageURL   string `json:"profile_image_url"`
+	TeamOnly          bool   `json:"team_only"`
+	TwitterScreenName string `json:"twitter_screen_name"`
+	WebsiteURL        string `json:"website_url"`
 }
