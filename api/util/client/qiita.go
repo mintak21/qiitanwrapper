@@ -31,8 +31,8 @@ type qiitaClient struct {
 
 // CommonParameter common request parameter
 type CommonParameter struct {
-	Page    int `validate:"gt=0"`
-	PerPage int `validate:"gt=0,lte=100"`
+	Page    int `validate:"required,gt=0"`
+	PerPage int `validate:"required,gt=0,lte=100"`
 }
 
 // GetItemsParameter parameters for GET /api/v2/items
@@ -74,13 +74,14 @@ func (c *qiitaClient) GetItems(param *GetItemsParameter) ([]*model.QiitaItem, er
 		return nil, err
 	}
 	resp, err := c.sendGetRequest(
-		fmt.Sprintf("%s%s", qiitaDomain, itemsEndpoint),
+		"https://qiita.com/api/v2/items/",
 		map[string]string{
 			"page":     strconv.Itoa(param.Common.Page),
 			"per_page": strconv.Itoa(param.Common.PerPage),
 			"query":    param.Query,
 		},
 	)
+	fmt.Print(param.Common, param.Query)
 	if err != nil {
 		return nil, err
 	}

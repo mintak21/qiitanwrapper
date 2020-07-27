@@ -90,29 +90,26 @@ func (h *syncTagItemsHandler) Handle(params items.SyncTagItemsParams) middleware
 	return items.NewSyncTagItemsOK().WithPayload(toModel(response, stocksMap, *params.Page, hasNext))
 }
 
-func createStocksMap(cl client.QiitaClient, items []*apiModel.QiitaItem) (map[string]int, error) {
+func createStocksMap(clt client.QiitaClient, items []*apiModel.QiitaItem) (map[string]int, error) {
 	result := map[string]int{}
 	// FIXME: リクエスト数がそれなりになるので、一旦コメントアウト
-	// for _, i := range items {
-	// 	stocks, err := sendGetStockerRequest(cl, i.ID)
+	// for _, item := range items {
+	// 	stocks, err := sendGetStockerRequest(clt, item.ID)
 	// 	if err != nil {
 	// 		return nil, err
 	// 	}
-	// 	result[i.ID] = stocks
+	// 	result[item.ID] = stocks
 	// }
 	return result, nil
 }
 
-func sendGetItemRequest(cl client.QiitaClient, page int, query string) ([]*apiModel.QiitaItem, bool, error) {
-	parameter := client.NewGetItemsParameter(page, perPage+1, query)
-	qiitaItems, err := cl.GetItems(parameter)
+func sendGetItemRequest(clt client.QiitaClient, page int, query string) ([]*apiModel.QiitaItem, bool, error) {
+	parameter := client.NewGetItemsParameter(page, perPage, query)
+	qiitaItems, err := clt.GetItems(parameter)
 	if err != nil {
 		return nil, false, err
 	}
-	if perPage < len(qiitaItems) {
-		return qiitaItems[0 : len(qiitaItems)-1], true, err
-	}
-	return qiitaItems, false, nil
+	return qiitaItems, perPage <= len(qiitaItems), nil
 }
 
 func sendGetStockerRequest(cl client.QiitaClient, itemID string) (int, error) {
