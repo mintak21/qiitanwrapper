@@ -8,7 +8,7 @@ import (
 
 const (
 	maxBodyByteSize = 3 * 1024 * 1024 // 3MB
-	requestQuota    = 1               // 5 request per second
+	requestQuota    = 1               // 1 request per second
 )
 
 // BodySizeLimit restricts access of body size
@@ -19,7 +19,7 @@ func BodySizeLimit(next http.Handler) http.Handler {
 	})
 }
 
-// RequestQuotaLimit restricts 5 request/second
+// RequestQuotaLimit restricts 1 request/second
 func RequestQuotaLimit(next http.Handler) http.Handler {
 	limiter := tollbooth.NewLimiter(requestQuota, nil).
 		SetIPLookups([]string{"RemoteAddr", "X-Forwarded-For", "X-Real-IP"}).
