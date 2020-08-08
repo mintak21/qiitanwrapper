@@ -14,14 +14,14 @@ jobs:
       - uses: actions/checkout@v2
       - name: Login to ECR
         id: ecr
-        uses: elgohr/ecr-login-action@v1.0.0
+        uses: elgohr/ecr-login-action@master
         with:
           access_key: ${{ secrets.AWS_ACCESS_KEY }}
           secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: ap-northeast-1
 
       - name: Kaniko build
-        uses: aevea/action-kaniko@v0.6.0
+        uses: aevea/action-kaniko@master
         with:
           image: mintak/qiitawrapper/api
           path: .
