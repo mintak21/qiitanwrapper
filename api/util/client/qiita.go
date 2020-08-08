@@ -43,6 +43,7 @@ type GetItemsParameter struct {
 
 // GetStockersParameter parameters for GET /api/v2/items/:item_id/stockers
 type GetStockersParameter struct {
+	Common *CommonParameter
 	ItemID string `validate:"required"`
 }
 
@@ -74,7 +75,7 @@ func (c *qiitaClient) GetItems(param *GetItemsParameter) ([]*model.QiitaItem, er
 		return nil, err
 	}
 	resp, err := c.sendGetRequest(
-		"https://qiita.com/api/v2/items/",
+		fmt.Sprintf("%s%s", qiitaDomain, itemsEndpoint),
 		map[string]string{
 			"page":     strconv.Itoa(param.Common.Page),
 			"per_page": strconv.Itoa(param.Common.PerPage),
@@ -103,7 +104,6 @@ func NewGetStockersParameter(itemID string) *GetStockersParameter {
 
 // GetStockers send request to /api/v2/items/:item_id/stockers
 func (c *qiitaClient) GetStockers(param *GetStockersParameter) ([]*model.QiitaStocker, error) {
-	const perPage = 500
 	var currentPage int
 	validate := validator.New()
 	if err := validate.Struct(param); err != nil {
@@ -118,7 +118,7 @@ func (c *qiitaClient) GetStockers(param *GetStockersParameter) ([]*model.QiitaSt
 			fmt.Sprintf("%s%s", qiitaDomain, endPoint),
 			map[string]string{
 				"page":     strconv.Itoa(currentPage),
-				"per_page": strconv.Itoa(perPage),
+				"per_page": strconv.Itoa(param.Common.PerPage),
 			},
 		)
 		if err != nil {
@@ -129,7 +129,7 @@ func (c *qiitaClient) GetStockers(param *GetStockersParameter) ([]*model.QiitaSt
 			return nil, err
 		}
 		results = append(results, stockers...)
-		if len(stockers) < perPage {
+		if len(stockers) < param.Common.PerPage {
 			break
 		}
 	}
