@@ -1,25 +1,24 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
   description: QiitaAPIのラッパーAPIです。
   version: 1.0.0
-  title: mintak's Qiita Wrapper
+  title: "mintak's Qiita Wrapper API"
   license:
     name: Apache 2.0
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 basePath: /api/v1
 tags:
   - name: items
     description: Qiitaの記事を操作
 schemes:
-  - https
   - http
 paths:
-  "/items/{tag}":
+  '/items/{tag}':
     get:
       tags:
         - items
       summary: 指定したタグの記事の取得
-      description: 指定したタグの記事の取得。1度に取得する件数は50固定。
+      description: 指定したタグの記事の取得。1度に取得する件数は100固定。
       operationId: getTagItems
       produces:
         - application/json
@@ -29,21 +28,35 @@ paths:
           type: string
           description: 取得する記事のタグ
           required: true
+        - type: integer
+          in: query
+          name: page
+          description: 取得するページ
+          minimum: 1
+          default: 1
       responses:
-        200:
+        '200':
           description: OK
           schema:
-            $ref: "#/definitions/Items"
-        400:
+            $ref: '#/definitions/Items'
+        '400':
           description: Bad Request
-        404:
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
           description: Not Found
-  "/items/sync/{tag}":
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+  '/items/sync/{tag}':
     get:
       tags:
         - items
       summary: 同期的にタグの記事を取得。
-      description: 指定日付に投稿された記事を一覧で取得。一度に取得できる記事の数は50固定。
+      description: 指定日付に投稿された記事を一覧で取得。一度に取得できる記事の数は100固定。
       operationId: syncTagItems
       consumes:
         - application/json
@@ -59,42 +72,65 @@ paths:
           in: query
           type: string
           format: date
-          required: false
+          description: 取得対象の日付
+        - type: integer
+          in: query
+          name: page
+          description: 取得するページ
+          minimum: 1
+          default: 1
       responses:
-        200:
+        '200':
           description: OK
           schema:
-            $ref: "#/definitions/Items"
-        400:
+            $ref: '#/definitions/Items'
+        '400':
           description: Bad Request
-        404:
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
           description: Not Found
-  "/items/high_qualities":
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+  /items/high_qualities:
     get:
       tags:
         - items
       summary: LGTMの多い記事を取得。
-      description: 指定月に投稿された記事のうち、LGTM数の多い順に50個の記事を取得。
+      description: 指定月に投稿された記事のうち、LGTM数の多い順に100個の記事を取得。
       operationId: getHighQualityItems
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
-        - name: month
+        - name: date
           in: query
           type: string
-          format: yyyy-mm
+          format: date
           required: false
+          description: 対象日付（日付形式で指定し、その月を対象とする）
       responses:
-        200:
+        '200':
           description: OK
           schema:
-            $ref: "#/definitions/Items"
-        400:
+            $ref: '#/definitions/Items'
+        '400':
           description: Bad Request
-        404:
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
           description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Items:
     type: object
@@ -102,14 +138,16 @@ definitions:
       items:
         type: array
         items:
-          $ref: "#/definitions/Item"
+          $ref: '#/definitions/Item'
       page:
         type: number
         format: int64
+        x-omitempty: false
         description: 現在のページ
         example: 1
       has_next:
         type: boolean
+        x-omitempty: false
         description: 次のページがあるかどうか
   Item:
     type: object
@@ -117,41 +155,45 @@ definitions:
       title:
         type: string
         description: 記事のタイトル
-        example: "Terraformを始める"
+        example: Terraformを始める
       link:
         type: string
         description: 記事のリンクURL
-        example: "https://example.com/test"
+        example: 'https://example.com/test'
       tags:
         type: array
         items:
           type: string
           description: つけられているタグ一覧
-          example: ["Terraform", "AWS", "Lambda"]
+          example:
+            - Terraform
+            - AWS
+            - Lambda
       table_contents:
         type: string
         description: 目次
-        example: "<h1概要</h1><h2>その１</h2><h2>その２</h2>"
+        example: '<h1概要</h1><h2>その１</h2><h2>その２</h2>'
       statistics:
-        $ref: "#/definitions/Statistics"
+        $ref: '#/definitions/Statistics'
       user:
-        $ref: "#/definitions/User"
+        $ref: '#/definitions/User'
       created_at:
         type: string
         description: 投稿日時
         format: date-time
-        example: "20200707T124012+09:00"
+        example: '20200707T124012+09:00'
   Statistics:
     type: object
     properties:
       lgtms:
         type: number
-        format: int64
+        format: int
+        x-omitempty: false
         description: LGTM数
         example: 2
       stocks:
         type: number
-        format: int64
+        format: int
         description: ストック数（ストックしているユーザー数）
         example: 1
   User:
@@ -164,4 +206,16 @@ definitions:
       thumbnail_link:
         type: string
         description: サムネイル画像リンク
-        example: "https://example.com/test.jpg"
+        example: 'https://example.com/test.jpg'
+  Error:
+    title: Error
+    type: object
+    description: Error Status model
+    properties:
+      message:
+        type: string
+        example: Bad Request
+consumes:
+  - application/json
+produces:
+  - application/json
