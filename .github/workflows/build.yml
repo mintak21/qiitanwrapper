@@ -32,8 +32,6 @@ jobs:
           path: .
           build_file: deployment/dockerfile/api/Dockerfile
           tag: ${{ github.ref }}-${{ github.sha }}
-          username: ${{ steps.login-ecr.outputs.username }}
-          password: ${{ steps.login-ecr.outputs.password }}
           registry: ${{ steps.login-ecr.outputs.registry }}
           cache: true
           cache_registry: mintak/cache/qiitawrapper/api
