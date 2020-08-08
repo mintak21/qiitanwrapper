@@ -26,7 +26,7 @@ jobs:
           image: mintak/qiitawrapper/api
           path: .
           build_file: deployment/dockerfile/api/Dockerfile
-          tag: $GITHUB_REF-$GITHUB_SHA
+          tag: master-lastest
           username: ${{ steps.ecr.outputs.username }}
           password: ${{ steps.ecr.outputs.password }}
           registry: ${{ steps.ecr.outputs.registry }}
