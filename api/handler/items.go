@@ -125,7 +125,7 @@ func sendGetStockerRequest(cl client.QiitaClient, itemID string) (int, error) {
 }
 
 func toModel(resItems []*apiModel.QiitaItem, stocks map[string]int, page int64, hasNext bool) *genModel.Items {
-	var items []*genModel.Item
+	items := make([]*genModel.Item, 0, len(resItems))
 	for _, resItem := range resItems {
 		var tags []string
 		for _, tag := range resItem.Tags {
@@ -137,7 +137,7 @@ func toModel(resItems []*apiModel.QiitaItem, stocks map[string]int, page int64, 
 			Tags:          tags,
 			TableContents: contents(resItem),
 			User: &genModel.User{
-				Name:          resItem.User.Name,
+				Name:          resItem.User.ID,
 				ThumbnailLink: resItem.User.ProfileImageURL,
 			},
 			Statistics: &genModel.Statistics{
