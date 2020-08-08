@@ -12,6 +12,10 @@ import (
 	qws "github.com/mintak21/qiitaWrapper/gen/restapi/qiitawrapper"
 )
 
+const (
+	defaultPort = 8090
+)
+
 var port int
 
 func init() {
@@ -33,7 +37,7 @@ func main() {
 	defer server.Shutdown()
 
 	// parse flags
-	flag.IntVar(&port, "port", 8090, "Port to run this service on")
+	flag.IntVar(&port, "port", defaultPort, "Port to run this service on")
 	flag.Parse()
 	// set the port this service will be run on
 	server.Port = port
