@@ -30,7 +30,7 @@ jobs:
           image: mintak/qiitawrapper/api
           path: .
           build_file: deployment/dockerfile/api/Dockerfile
-          tag: ${{ process.env.IMAGE_TAG }}
+          tag: test:latest
           username: ${{ steps.login-ecr.outputs.username }}
           password: ${{ steps.login-ecr.outputs.password }}
           registry: ${{ steps.login-ecr.outputs.registry }}
