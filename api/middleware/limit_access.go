@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	maxBodyByteSize = 3 * 1024 * 1024 // 3MB
-	requestQuota    = 1               // 1 request per second
+	maxBodyByteSize = 100 * 1024 * 1024 // 100MB
+	requestQuota    = 1                 // 1 request per second
 )
 
 // BodySizeLimit restricts access of body size

@@ -3,6 +3,8 @@ module github.com/mintak21/qiitaWrapper
 go 1.13
 
 require (
+	github.com/PuerkitoBio/goquery v1.5.1
+	github.com/andybalholm/cascadia v1.1.0
 	github.com/carbocation/interpose v0.0.0-20161206215253-723534742ba3
 	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0 // indirect
 	github.com/didip/tollbooth v4.0.2+incompatible

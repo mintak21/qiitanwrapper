@@ -2,8 +2,11 @@ package handler
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
+	"github.com/PuerkitoBio/goquery"
+	"github.com/andybalholm/cascadia"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"
 	apiModel "github.com/mintak21/qiitaWrapper/api/model"
@@ -13,9 +16,9 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const (
-	perPage = 100
-)
+const perPage = 100
+
+var contentTags = cascadia.MustCompile("h1, h2")
 
 func init() {
 	strfmt.MarshalFormat = strfmt.RFC3339Millis
@@ -129,9 +132,10 @@ func toModel(resItems []*apiModel.QiitaItem, stocks map[string]int, page int64, 
 			tags = append(tags, tag.Name)
 		}
 		item := genModel.Item{
-			Title: resItem.Title,
-			Link:  resItem.URL,
-			Tags:  tags,
+			Title:         resItem.Title,
+			Link:          resItem.URL,
+			Tags:          tags,
+			TableContents: contents(resItem),
 			User: &genModel.User{
 				Name:          resItem.User.Name,
 				ThumbnailLink: resItem.User.ProfileImageURL,
@@ -149,4 +153,14 @@ func toModel(resItems []*apiModel.QiitaItem, stocks map[string]int, page int64, 
 		Page:    page,
 		Items:   items,
 	}
+}
+
+func contents(apiItem *apiModel.QiitaItem) string {
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(apiItem.RenderedBody))
+	if err != nil {
+		// ここのエラーはログに出すだけで握りつぶし
+		log.Warn("failed to scrape contents", "err", err)
+		return ""
+	}
+	return doc.FindMatcher(contentTags).Text()
 }
