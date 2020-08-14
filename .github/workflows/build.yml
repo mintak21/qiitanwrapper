@@ -9,8 +9,21 @@ jobs:
   build:
     name: Build And Push Docker Image
     runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [api, ci-test]
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v2
+
+      - name: Get Version
+        id: version
+        run: |
+          echo ::set-output name=source_branch::${GITHUB_REF#refs/heads/}
+          echo ::set-output name=source_tag::${GITHUB_REF#refs/tags/}
 
       - name: Configure AWS credentials
         id: aws-cred
@@ -28,12 +41,12 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: mintak/qiitawrapper/api
-          DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-          IMAGE_TAG: ${{ github.sha }}
+          ECR_REPOSITORY: mintak/qiitawrapper/${{ matrix.service }}
+          DOCKER_FILE: deployment/dockerfile/${{ matrix.service }}/Dockerfile
+          IMAGE_TAG: ${{ steps.version.outputs.source_branch }}-${{ github.sha }}
         run: |
-          docker build -f $DOCKER_FILE -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker build -f ${DOCKER_FILE} -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
+          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
 
       - name: Logout From Amazon ECR
         id: logout-ecr
