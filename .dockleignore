@@ -1,0 +1,4 @@
+# distroless does not contain /bin/sh
+CIS-DI-0001
+# health check defines on kubernetes manifests
+CIS-DI-0006
