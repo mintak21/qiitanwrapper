@@ -60,5 +60,5 @@ jobs:
         uses: Azure/container-scan@v0
         with:
           image-name: mintak/qiitaapi/api:check-image
-          severity-threshold: MEDIUM
+          severity-threshold: LOW
           run-quality-checks: true
