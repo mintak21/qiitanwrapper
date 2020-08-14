@@ -27,6 +27,26 @@ jobs:
         id: test
         run: echo dummy test done
 
+  build-image:
+    name: Build Image
+    runs-on: ubuntu-18.04
+    outputs:
+      image-tag: ${{ steps.build.outputs.tag }}
+    steps:
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v2
+
+      - name: Build image from Dockerfile
+        id: build
+        env:
+          DOCKER_FILE: deployment/dockerfile/api/Dockerfile
+          REPO: mintak/qiitaapi/api
+          TAG: check
+        run: |
+          docker build -f ${DOCKER_FILE} -t ${REPO}:${TAG} .
+          echo "::set-output name=tag::${REPO}:${TAG}"
+
   scan-vulnerability:
     name: Scan Vulnerability By Trivy
     runs-on: ubuntu-18.04
@@ -42,17 +62,17 @@ jobs:
         id: checkout
         uses: actions/checkout@v2
 
-      - name: Build image from Dockerfile
-        id: build
-        env:
-          DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-        run: docker build -f ${DOCKER_FILE} -t mintak/qiitaapi/api:check-image .
+      # - name: Build image from Dockerfile
+      #   id: build
+      #   env:
+      #     DOCKER_FILE: deployment/dockerfile/api/Dockerfile
+      #   run: docker build -f ${DOCKER_FILE} -t mintak/qiitaapi/api:check-image .
 
       - name: Run Vulnerability Scanner
         id: vul-scan
         uses: aquasecurity/trivy-action@0.0.8
         with:
-          image-ref: mintak/qiitaapi/api:check-image
+          image-ref: ${{ needs.build-image.outputs.image-tag }}
           format: table
           exit-code: 1
           ignore-unfixed: true
