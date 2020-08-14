@@ -27,6 +27,22 @@ jobs:
         id: test
         run: echo dummy test done
 
+      - name: Branch name
+        id: branch_name
+        run: |
+          echo ::set-output name=SOURCE_NAME::${GITHUB_REF#refs/*/}
+          echo ::set-output name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
+          echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+      - name: echo name
+        run: |
+          echo $SOURCE_NAME
+          echo $SOURCE_BRANCH
+          echo $SOURCE_TAG
+        env:
+          SOURCE_NAME: ${{ steps.branch_name.outputs.SOURCE_NAME }}
+          SOURCE_BRANCH: ${{ steps.branch_name.outputs.SOURCE_BRANCH }}
+          SOURCE_TAG: ${{ steps.branch_name.outputs.SOURCE_TAG }}
+
   scan:
     name: Scan Image
     runs-on: ubuntu-18.04
@@ -100,29 +116,30 @@ jobs:
         id: checkout
         uses: actions/checkout@v2
 
-      - name: dummy
-        run: echo "Dummy ${{ matrix.service }}"
-      # - name: Configure AWS credentials
-      #   id: aws-cred
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: ap-northeast-1
-      # - name: Login to Amazon ECR
-      #   id: login-ecr
-      #   uses: aws-actions/amazon-ecr-login@v1
-      # - name: Build and push image to Amazon ECR
-      #   id: build-image
-      #   env:
-      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      #     ECR_REPOSITORY: mintak/qiitawrapper/api
-      #     DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-      #     IMAGE_TAG: ${{ github.sha }}
-      #   run: |
-      #     docker build -f $DOCKER_FILE -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-      # - name: Logout From Amazon ECR
-      #   id: logout-ecr
-      #   if: always()
-      #   run: docker logout ${{ steps.login-ecr.outputs.registry }}
+      - name: Configure AWS credentials
+        id: aws-cred
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: mintak/qiitawrapper/${{ matrix.service }}
+          DOCKER_FILE: deployment/dockerfile/${{ matrix.service }}/Dockerfile
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -f ${DOCKER_FILE} -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
+          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
+
+      - name: Logout From Amazon ECR
+        id: logout-ecr
+        if: always()
+        run: docker logout ${{ steps.login-ecr.outputs.registry }}
