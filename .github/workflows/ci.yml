@@ -58,7 +58,5 @@ jobs:
       - name: Run Vulnerability/Security Scanner
         id: run-vul-sec-scanner
         uses: azure/container-scan@v0
-        env:
-          IMAGE_TAG: security-check
         with:
-          image-name: mintak/qiitaapi/api:vulnerability
+          image-name: mintak/qiitaapi/api:check-image
