@@ -1,0 +1,60 @@
+name: Unit Test and Check Docker Image
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  unit-test:
+    name: Unit Test
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout code
+      - uses: actions/checkout@v2
+
+      - name: Execute Unit Test
+        run: echo dummy test done
+
+  scan-vulnerability:
+    name: Scan Vulnerability By Trivy
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Setup Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.14
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build image from Dockerfile
+        env:
+          DOCKER_FILE: deployment/dockerfile/api/Dockerfile
+          IMAGE_TAG: vulnerability
+        run: docker build -f ${DOCKER_FILE} -t ${IMAGE_TAG} .
+
+      - name: Run Vulnerability Scanner
+        uses: aquasecurity/trivy-action@0.0.8
+        env:
+          IMAGE_TAG: vulnerability
+        with:
+          image-ref: ${IMAGE_TAG}
+          format: table
+          exit-code: 1
+          ignore-unfixed: true
+          severity: "CRITICAL,HIGH"
+      # - name: Build image from Dockerfile
+      #   env:
+      #     DOCKER_FILE: deployment/dockerfile/api/Dockerfile
+      #     IMAGE_TAG: security-check
+      #   run: docker build -f ${DOCKER_FILE} -t ${IMAGE_TAG} .
+      # - name: Run Vulnerability Scanner And Security Scanner
+      #   uses: azure/container-scan@v0
+      #   env:
+      #     IMAGE_TAG: security-check
+      #   with:
+      #     image-name: ${IMAGE_TAG}
