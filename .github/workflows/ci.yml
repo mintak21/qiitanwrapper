@@ -61,60 +61,60 @@ jobs:
           ignore-unfixed: true
           severity: "CRITICAL,HIGH"
 
-    scan-image-security:
-      name: Scan Image Security By Dockle
-      runs-on: ubuntu-18.04
-      needs: unit-test
-      steps:
-        - name: Install Dockle
-          env:
-            DOCKLE_VERSION: 0.2.4
-          run: |
-            curl -L -o dockle.deb https://github.com/goodwithtech/dockle/releases/download/v${DOCKLE_VERSION}/dockle_${DOCKLE_VERSION}_Linux-64bit.deb
-            sudo dpkg -i dockle.deb
-            rm dockle.deb
+  scan-image-security:
+    name: Scan Image Security By Dockle
+    runs-on: ubuntu-18.04
+    needs: unit-test
+    steps:
+      - name: Install Dockle
+        env:
+          DOCKLE_VERSION: 0.2.4
+        run: |
+          curl -L -o dockle.deb https://github.com/goodwithtech/dockle/releases/download/v${DOCKLE_VERSION}/dockle_${DOCKLE_VERSION}_Linux-64bit.deb
+          sudo dpkg -i dockle.deb
+          rm dockle.deb
 
-        - name: Checkout code
-          id: checkout
-          uses: actions/checkout@v2
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v2
 
-        - name: Build image from Dockerfile
-          id: build
-          env:
-            DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-            TAG: mintak/qiitaapi/api:check-image
-          run: |
-            docker build -f ${DOCKER_FILE} -t ${TAG} .
-            echo "::set-output name=tag::${TAG}"
+      - name: Build image from Dockerfile
+        id: build
+        env:
+          DOCKER_FILE: deployment/dockerfile/api/Dockerfile
+          TAG: mintak/qiitaapi/api:check-image
+        run: |
+          docker build -f ${DOCKER_FILE} -t ${TAG} .
+          echo "::set-output name=tag::${TAG}"
 
-        - name: Run Vulnerability Scanner
-          id: scan-security
-          run: |
-            dockle --exit-code 1 --exit-level warn ${{ steps.build.outputs.tag }}
+      - name: Run Vulnerability Scanner
+        id: scan-security
+        run: |
+          dockle --exit-code 1 --exit-level warn ${{ steps.build.outputs.tag }}
 
-    # ベータ版のようだが、TrivyとDockleの2つを使ってチェックしてくれるAction
-    scan-full:
-      name: Scan Image By Azure/container-scan
-      runs-on: ubuntu-18.04
-      needs: unit-test
-      steps:
-        - name: Checkout code
-          id: checkout
-          uses: actions/checkout@v2
+  # ベータ版のようだが、TrivyとDockleの2つを使ってチェックしてくれるAction
+  scan-full:
+    name: Scan Image By Azure/container-scan
+    runs-on: ubuntu-18.04
+    needs: unit-test
+    steps:
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v2
 
-        - name: Build image from Dockerfile
-          id: build
-          env:
-            DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-            TAG: mintak/qiitaapi/api:check-image
-          run: |
-            docker build -f ${DOCKER_FILE} -t ${TAG} .
-            echo "::set-output name=tag::${TAG}"
+      - name: Build image from Dockerfile
+        id: build
+        env:
+          DOCKER_FILE: deployment/dockerfile/api/Dockerfile
+          TAG: mintak/qiitaapi/api:check-image
+        run: |
+          docker build -f ${DOCKER_FILE} -t ${TAG} .
+          echo "::set-output name=tag::${TAG}"
 
-        - name: Run Vulnerability/Security Scanner
-          id: run-vul-sec-scanner
-          uses: Azure/container-scan@v0
-          with:
-            image-name: mintak/qiitaapi/api:check-image
-            severity-threshold: HIGH
-            run-quality-checks: true
+      - name: Run Vulnerability/Security Scanner
+        id: run-vul-sec-scanner
+        uses: Azure/container-scan@v0
+        with:
+          image-name: mintak/qiitaapi/api:check-image
+          severity-threshold: HIGH
+          run-quality-checks: true
