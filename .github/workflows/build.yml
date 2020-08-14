@@ -1,4 +1,4 @@
-name: Build Docker Image
+name: Build And Push Docker Image
 
 on:
   push:
@@ -9,6 +9,7 @@ jobs:
   build:
     name: Build And Push Docker Image
     runs-on: ubuntu-18.04
+    if: github.event_name == 'push'
     strategy:
       fail-fast: false
       matrix:

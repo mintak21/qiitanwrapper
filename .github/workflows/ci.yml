@@ -2,8 +2,6 @@ name: Unit Test and Check Docker Image
 
 on:
   pull_request:
-    branches:
-      - master
 
 jobs:
   unit-test:
@@ -82,50 +80,3 @@ jobs:
           image-name: ${{ steps.build.outputs.tag }}
           run-quality-checks: true
           severity-threshold: HIGH
-
-  push:
-    name: Push Image To ECR
-    runs-on: ubuntu-18.04
-    needs: [unit-test, scan]
-    strategy:
-      fail-fast: false
-      matrix:
-        service: [api, ci-test]
-    steps:
-      - name: Checkout code
-        id: checkout
-        uses: actions/checkout@v2
-
-      - name: Get Version
-        id: version
-        run: |
-          echo ::set-output name=source_branch::${GITHUB_REF#refs/heads/}
-          echo ::set-output name=source_tag::${GITHUB_REF#refs/tags/}
-
-      - name: Configure AWS credentials
-        id: aws-cred
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-1
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Build and push image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: mintak/qiitawrapper/${{ matrix.service }}
-          DOCKER_FILE: deployment/dockerfile/${{ matrix.service }}/Dockerfile
-          IMAGE_TAG: ${{ steps.version.outputs.source_branch }}-${{ github.sha }}
-        run: |
-          docker build -f ${DOCKER_FILE} -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
-          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
-
-      - name: Logout From Amazon ECR
-        id: logout-ecr
-        if: always()
-        run: docker logout ${{ steps.login-ecr.outputs.registry }}
