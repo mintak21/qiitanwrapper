@@ -115,6 +115,6 @@ jobs:
         id: run-vul-sec-scanner
         uses: Azure/container-scan@v0
         with:
-          image-name: mintak/qiitaapi/api:check-image
+          image-name: ${{ steps.build.outputs.tag }}
           severity-threshold: HIGH
           run-quality-checks: true
