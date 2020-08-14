@@ -42,17 +42,17 @@ jobs:
         id: build
         env:
           DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-        run: docker build -f ${DOCKER_FILE} -t vulnerability:latest .
+        run: docker build -f ${DOCKER_FILE} -t mintak/qiitaapi/api:vulnerability .
 
       - name: Run Vulnerability Scanner
         id: run-scanner
         uses: aquasecurity/trivy-action@0.0.8
         with:
-          image-ref: vulnerability:latest
+          image-ref: mintak/qiitaapi/api:vulnerability
           format: table
           exit-code: 1
           ignore-unfixed: true
-          severity: "CRITICAL,HIGH"
+          severity: "LOW,MEDIUM,CRITICAL,HIGH"
       # - name: Build image from Dockerfile
       #   id: build
       #   env:
