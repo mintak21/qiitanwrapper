@@ -41,7 +41,7 @@ jobs:
         id: build
         env:
           DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-          TAG: mintak/qiitaapi/api:check-image
+          TAG: api:check-image
         run: |
           docker build -f ${DOCKER_FILE} -t ${TAG} .
           docker save ${TAG} -o ${TAG}.tar
