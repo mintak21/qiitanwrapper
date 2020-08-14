@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: image
-          path: ${{ steps.build.outputs.tag }}.tar
+          path: ${{ steps.build.outputs.repository }}.tar
 
   scan-image-vulnerability:
     name: Scan Image Vulnerability By Trivy
