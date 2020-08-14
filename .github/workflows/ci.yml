@@ -28,7 +28,7 @@ jobs:
         run: echo dummy test done
 
   scan:
-    name: Scan Image Vulnerability By Trivy
+    name: Scan Image
     runs-on: ubuntu-18.04
     needs: unit-test
     strategy:
