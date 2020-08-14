@@ -31,6 +31,7 @@ jobs:
     name: Build image from Dockerfile
     runs-on: ubuntu-18.04
     outputs:
+      repository: ${{ steps.build.outputs.repository }}
       tag: ${{ steps.build.outputs.tag }}
     steps:
       - name: Checkout code
@@ -41,10 +42,12 @@ jobs:
         id: build
         env:
           DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-          TAG: api:check-image
+          REPOSITORY: api
+          TAG: check-image
         run: |
-          docker build -f ${DOCKER_FILE} -t ${TAG} .
-          docker save ${TAG} -o ${TAG}.tar
+          docker build -f ${DOCKER_FILE} -t ${REPOSITORY}:${TAG} .
+          docker save ${REPOSITORY}:${TAG} -o ${REPOSITORY}.tar
+          echo "::set-output name=repository::${REPOSITORY}"
           echo "::set-output name=tag::${TAG}"
 
       - name: Archive Image
@@ -68,13 +71,13 @@ jobs:
       - name: Load Target Image
         id: load
         run: |
-          docker load -i ${{ needs.build.ouputs.tag }}.tar
+          docker load -i ${{ needs.build.outputs.repository }}.tar
 
       - name: Run Vulnerability Scanner
         id: scan-vulnerability
         uses: aquasecurity/trivy-action@0.0.8
         with:
-          image-ref: ${{ needs.build.ouputs.tag }}
+          image-ref: "${{ needs.build.outputs.repository }}:${{ needs.build.outputs.tag }}"
           format: table
           exit-code: 1
           ignore-unfixed: true
@@ -96,12 +99,12 @@ jobs:
       - name: Load Target Image
         id: load
         run: |
-          docker load -i ${{ needs.build.ouputs.tag }}.tar
+          docker load -i ${{ needs.build.outputs.repository }}.tar
 
       - name: Run Vulnerability Scanner
         id: scan-security
         run: |
-          dockle --exit-code 1 --exit-level warn ${{ needs.build.ouputs.tag }}
+          dockle --exit-code 1 --exit-level warn ${{ needs.build.outputs.repository }}:${{ needs.build.outputs.tag }}
   # scan-image-vulnerability:
   #   name: Scan Image Vulnerability By Trivy
   #   runs-on: ubuntu-18.04
