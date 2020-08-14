@@ -29,35 +29,38 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Setup Go
+        id: setup
         uses: actions/setup-go@v1
         with:
           go-version: 1.14
 
       - name: Checkout code
+        id: checkout
         uses: actions/checkout@v2
 
       - name: Build image from Dockerfile
+        id: build
         env:
           DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-          IMAGE_TAG: vulnerability
-        run: docker build -f ${DOCKER_FILE} -t ${IMAGE_TAG} .
+        run: docker build -f ${DOCKER_FILE} -t vulnerability:latest .
 
       - name: Run Vulnerability Scanner
+        id: run-scanner
         uses: aquasecurity/trivy-action@0.0.8
-        env:
-          IMAGE_TAG: vulnerability
         with:
-          image-ref: ${IMAGE_TAG}
+          image-ref: vulnerability:latest
           format: table
           exit-code: 1
           ignore-unfixed: true
           severity: "CRITICAL,HIGH"
       # - name: Build image from Dockerfile
+      #   id: build
       #   env:
       #     DOCKER_FILE: deployment/dockerfile/api/Dockerfile
       #     IMAGE_TAG: security-check
       #   run: docker build -f ${DOCKER_FILE} -t ${IMAGE_TAG} .
       # - name: Run Vulnerability Scanner And Security Scanner
+      #   id: run-scanner
       #   uses: azure/container-scan@v0
       #   env:
       #     IMAGE_TAG: security-check
