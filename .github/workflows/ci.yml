@@ -58,7 +58,7 @@ jobs:
       - name: Build image from Dockerfile
         id: build
         run: |
-          TAG="${{ matrix.service }}:check-image"
+          TAG="${{ matrix.service }}:ci"
           docker build -f deployment/dockerfile/${{ matrix.service }}/Dockerfile -t ${TAG} .
           echo "::set-output name=tag::${TAG}"
 
