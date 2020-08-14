@@ -1,0 +1,4 @@
+# check local build tag
+CIS-DI-0005
+# health check defines on kubernetes manifests
+CIS-DI-0006
