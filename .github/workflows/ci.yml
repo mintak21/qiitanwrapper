@@ -27,13 +27,17 @@ jobs:
         id: test
         run: echo dummy test done
 
-  build:
-    name: Build image from Dockerfile
+  scan-image-vulnerability:
+    name: Scan Image Vulnerability By Trivy
     runs-on: ubuntu-18.04
-    outputs:
-      repository: ${{ steps.build.outputs.repository }}
-      tag: ${{ steps.build.outputs.tag }}
+    needs: unit-test
     steps:
+      - name: Setup Go
+        id: setup
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.14
+
       - name: Checkout code
         id: checkout
         uses: actions/checkout@v2
@@ -42,42 +46,16 @@ jobs:
         id: build
         env:
           DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-          REPOSITORY: api
-          TAG: check-image
+          TAG: mintak/qiitaapi/api:check-image
         run: |
-          docker build -f ${DOCKER_FILE} -t ${REPOSITORY}:${TAG} .
-          docker save ${REPOSITORY}:${TAG} -o ${REPOSITORY}.tar
-          echo "::set-output name=repository::${REPOSITORY}"
+          docker build -f ${DOCKER_FILE} -t ${TAG} .
           echo "::set-output name=tag::${TAG}"
-
-      - name: Archive Image
-        id: archive
-        uses: actions/upload-artifact@v2
-        with:
-          name: image
-          path: ${{ steps.build.outputs.repository }}.tar
-
-  scan-image-vulnerability:
-    name: Scan Image Vulnerability By Trivy
-    runs-on: ubuntu-18.04
-    needs: [unit-test, build]
-    steps:
-      - name: Setup Go
-        id: setup
-        uses: actions/setup-go@v1
-        with:
-          go-version: 1.14
-
-      - name: Load Target Image
-        id: load
-        run: |
-          docker load -i ${{ needs.build.outputs.repository }}.tar
 
       - name: Run Vulnerability Scanner
         id: scan-vulnerability
         uses: aquasecurity/trivy-action@0.0.8
         with:
-          image-ref: "${{ needs.build.outputs.repository }}:${{ needs.build.outputs.tag }}"
+          image-ref: ${{ steps.build.outputs.tag }}
           format: table
           exit-code: 1
           ignore-unfixed: true
@@ -86,7 +64,7 @@ jobs:
   scan-image-security:
     name: Scan Image Security By Dockle
     runs-on: ubuntu-18.04
-    needs: [unit-test, build]
+    needs: unit-test
     steps:
       - name: Install Dockle
         env:
@@ -96,90 +74,49 @@ jobs:
           sudo dpkg -i dockle.deb
           rm dockle.deb
 
-      - name: Load Target Image
-        id: load
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v2
+
+      - name: Build image from Dockerfile
+        id: build
+        env:
+          DOCKER_FILE: deployment/dockerfile/api/Dockerfile
+          TAG: mintak/qiitaapi/api:check-image
         run: |
-          docker load -i ${{ needs.build.outputs.repository }}.tar
+          docker build -f ${DOCKER_FILE} -t ${TAG} .
+          echo "::set-output name=tag::${TAG}"
 
       - name: Run Vulnerability Scanner
         id: scan-security
         run: |
-          dockle --exit-code 1 --exit-level warn ${{ needs.build.outputs.repository }}:${{ needs.build.outputs.tag }}
-  # scan-image-vulnerability:
-  #   name: Scan Image Vulnerability By Trivy
-  #   runs-on: ubuntu-18.04
-  #   needs: unit-test
-  #   steps:
-  #     - name: Setup Go
-  #       id: setup
-  #       uses: actions/setup-go@v1
-  #       with:
-  #         go-version: 1.14
-  #     - name: Checkout code
-  #       id: checkout
-  #       uses: actions/checkout@v2
-  #     - name: Build image from Dockerfile
-  #       id: build
-  #       env:
-  #         DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-  #       run: |
-  #         docker build -f ${DOCKER_FILE} -t ${TAG} .
-  #         echo "::set-output name=tag::${TAG}"
-  #     - name: Run Vulnerability Scanner
-  #       id: scan-vulnerability
-  #       uses: aquasecurity/trivy-action@0.0.8
-  #       with:
-  #         image-ref: ${{ steps.build.outputs.tag }}
-  #         format: table
-  #         exit-code: 1
-  #         ignore-unfixed: true
-  #         severity: "CRITICAL,HIGH"
-  # scan-image-security:
-  #   name: Scan Image Security By Dockle
-  #   runs-on: ubuntu-18.04
-  #   needs: unit-test
-  #   steps:
-  #     - name: Install Dockle
-  #       env:
-  #         DOCKLE_VERSION: 0.2.4
-  #       run: |
-  #         curl -L -o dockle.deb https://github.com/goodwithtech/dockle/releases/download/v${DOCKLE_VERSION}/dockle_${DOCKLE_VERSION}_Linux-64bit.deb
-  #         sudo dpkg -i dockle.deb
-  #         rm dockle.deb
-  #     - name: Checkout code
-  #       id: checkout
-  #       uses: actions/checkout@v2
-  #     - name: Build image from Dockerfile
-  #       id: build
-  #       env:
-  #         DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-  #       run: |
-  #         docker build -f ${DOCKER_FILE} -t ${TAG} .
-  #         echo "::set-output name=tag::${TAG}"
-  #     - name: Run Vulnerability Scanner
-  #       id: scan-security
-  #       run: |
-  #         dockle --exit-code 1 --exit-level warn ${{ steps.build.outputs.tag }}
-  # # ベータ版のようだが、TrivyとDockleの2つを使ってチェックしてくれるAction
-  # scan-full:
-  #   name: Scan Image By Azure/container-scan
-  #   runs-on: ubuntu-18.04
-  #   needs: unit-test
-  #   steps:
-  #     - name: Checkout code
-  #       id: checkout
-  #       uses: actions/checkout@v2
-  #     - name: Build image from Dockerfile
-  #       id: build
-  #       env:
-  #         DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-  #       run: |
-  #         docker build -f ${DOCKER_FILE} -t ${TAG} .
-  #         echo "::set-output name=tag::${TAG}"
-  #     - name: Run Vulnerability/Security Scanner
-  #       id: run-vul-sec-scanner
-  #       uses: Azure/container-scan@v0
-  #       with:
-  #         image-name: ${{ steps.build.outputs.tag }}
-  #         severity-threshold: HIGH
-  #         run-quality-checks: true
+          dockle --exit-code 1 --exit-level warn ${{ steps.build.outputs.tag }}
+
+  # ベータ版のようだが、TrivyとDockleの2つを使ってチェックしてくれるAction
+  scan-full:
+    name: Scan Image By Azure/container-scan
+    runs-on: ubuntu-18.04
+    needs: unit-test
+    strategy:
+      matrix:
+        service: [api, app]
+
+    steps:
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v2
+
+      - name: Build image from Dockerfile
+        id: build
+        run: |
+          TAG="${{ matrix.service }}:check-image"
+          docker build -f deployment/dockerfile/${{ matrix.service }}/Dockerfile -t ${TAG} .
+          echo "::set-output name=tag::${TAG}"
+
+      - name: Run Vulnerability/Security Scanner
+        id: run-vul-sec-scanner
+        uses: Azure/container-scan@v0
+        with:
+          image-name: ${{ steps.build.outputs.tag }}
+          severity-threshold: HIGH
+          run-quality-checks: true
