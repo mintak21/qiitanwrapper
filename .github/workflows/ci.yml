@@ -42,27 +42,23 @@ jobs:
         id: build
         env:
           DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-        run: docker build -f ${DOCKER_FILE} -t mintak/qiitaapi/api:vulnerability .
+        run: docker build -f ${DOCKER_FILE} -t mintak/qiitaapi/api:check-image .
 
       - name: Run Vulnerability Scanner
-        id: run-scanner
+        id: vul-scan
         uses: aquasecurity/trivy-action@0.0.8
         with:
-          image-ref: mintak/qiitaapi/api:vulnerability
+          image-ref: mintak/qiitaapi/api:check-image
           format: table
           exit-code: 1
           ignore-unfixed: true
-          severity: "LOW,MEDIUM,CRITICAL,HIGH"
-      # - name: Build image from Dockerfile
-      #   id: build
-      #   env:
-      #     DOCKER_FILE: deployment/dockerfile/api/Dockerfile
-      #     IMAGE_TAG: security-check
-      #   run: docker build -f ${DOCKER_FILE} -t ${IMAGE_TAG} .
-      # - name: Run Vulnerability Scanner And Security Scanner
-      #   id: run-scanner
-      #   uses: azure/container-scan@v0
-      #   env:
-      #     IMAGE_TAG: security-check
-      #   with:
-      #     image-name: ${IMAGE_TAG}
+          severity: "CRITICAL,HIGH"
+
+      # ベータ版のようだが、TrivyとDockleの2つを使ってチェックしてくれるAction
+      - name: Run Vulnerability/Security Scanner
+        id: run-vul-sec-scanner
+        uses: azure/container-scan@v0
+        env:
+          IMAGE_TAG: security-check
+        with:
+          image-name: mintak/qiitaapi/api:vulnerability
