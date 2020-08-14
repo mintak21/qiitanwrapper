@@ -57,6 +57,8 @@ jobs:
       # ベータ版のようだが、TrivyとDockleの2つを使ってチェックしてくれるAction
       - name: Run Vulnerability/Security Scanner
         id: run-vul-sec-scanner
-        uses: azure/container-scan@v0
+        uses: Azure/container-scan@v0
         with:
           image-name: mintak/qiitaapi/api:check-image
+          severity-threshold: MEDIUM
+          run-quality-checks: true
