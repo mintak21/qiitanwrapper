@@ -16,7 +16,7 @@ jobs:
         id: lint
         uses: golangci/golangci-lint-action@v2
         with:
-          version: v1.30.0
+          version: v1.30
 
   unit-test:
     name: Unit Test
@@ -42,7 +42,7 @@ jobs:
 
       - name: Unit Test
         id: test
-        run: go test ./... -v
+        run: go test ./... -cover
 
   scan:
     name: Scan Image
