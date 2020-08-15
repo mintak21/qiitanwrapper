@@ -82,7 +82,6 @@ func (c *qiitaClient) GetItems(param *GetItemsParameter) ([]*model.QiitaItem, er
 			"query":    param.Query,
 		},
 	)
-	fmt.Print(param.Common, param.Query)
 	if err != nil {
 		return nil, err
 	}
@@ -98,6 +97,10 @@ func (c *qiitaClient) GetItems(param *GetItemsParameter) ([]*model.QiitaItem, er
 // NewGetStockersParameter creates GetStockersParameter
 func NewGetStockersParameter(itemID string) *GetStockersParameter {
 	return &GetStockersParameter{
+		Common: &CommonParameter{
+			Page:    1,
+			PerPage: 100,
+		},
 		ItemID: itemID,
 	}
 }
