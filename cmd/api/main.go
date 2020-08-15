@@ -5,6 +5,7 @@ import (
 	"os"
 
 	loads "github.com/go-openapi/loads"
+	"github.com/go-openapi/strfmt"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/mintak21/qiitaWrapper/api/handler"
@@ -18,13 +19,10 @@ const (
 
 var port int
 
-func init() {
-	log.SetFormatter(&log.JSONFormatter{})
-	log.SetOutput(os.Stdout)
-	log.SetLevel(log.InfoLevel)
-}
-
 func main() {
+	// not use init() cause linter checks gochecknoinits
+	initialSetup()
+
 	// load embedded swagger file
 	swaggerSpec, err := loads.Analyzed(restapi.SwaggerJSON, "2.0")
 	if err != nil {
@@ -34,7 +32,7 @@ func main() {
 	// create new service API
 	api := qws.NewQiitawrapperAPI(swaggerSpec)
 	server := restapi.NewServer(api)
-	defer server.Shutdown()
+	defer shutdown(server)
 
 	// parse flags
 	flag.IntVar(&port, "port", defaultPort, "Port to run this service on")
@@ -52,5 +50,19 @@ func main() {
 	// serve API
 	if err := server.Serve(); err != nil {
 		log.Fatalln(err)
+	}
+}
+
+func initialSetup() {
+	log.SetFormatter(&log.JSONFormatter{})
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.InfoLevel)
+	strfmt.MarshalFormat = strfmt.RFC3339Millis
+}
+
+func shutdown(server *restapi.Server) {
+	err := server.Shutdown()
+	if err != nil {
+		os.Exit(1)
 	}
 }

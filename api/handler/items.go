@@ -20,10 +20,6 @@ const perPage = 100
 
 var contentTags = cascadia.MustCompile("h1, h2")
 
-func init() {
-	strfmt.MarshalFormat = strfmt.RFC3339Millis
-}
-
 // NewGetTagItemsHandler handles a request for getting tag items
 func NewGetTagItemsHandler() items.GetTagItemsHandler {
 	return &tagItemsHandler{
