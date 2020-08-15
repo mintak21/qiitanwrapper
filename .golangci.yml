@@ -52,7 +52,6 @@ linters:
     - noctx
     - nolintlint
     - rowserrcheck
-    - scopelint
     - staticcheck
     - structcheck
     - stylecheck
@@ -72,6 +71,7 @@ linters:
   # - maligned
   # - nestif
   # - prealloc
+  # - scopelint
   # - testpackage
   # - wsl
 
