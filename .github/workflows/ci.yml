@@ -17,7 +17,7 @@ jobs:
         uses: golangci/golangci-lint-action@v2
         with:
           version: v1.30
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          only-new-issues: true
 
   unit-test:
     name: Unit Test

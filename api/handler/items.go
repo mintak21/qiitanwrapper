@@ -161,6 +161,6 @@ func contents(apiItem *apiModel.QiitaItem) string {
 	return doc.FindMatcher(contentTags).Text()
 }
 
-func unusedFunc(ss string) {
-	fmt.Printf(ss)
+func unused(ss string) {
+	fmt.Println(ss)
 }
