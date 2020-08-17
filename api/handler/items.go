@@ -111,14 +111,14 @@ func sendGetItemRequest(clt client.QiitaClient, page int, query string) ([]*apiM
 	return qiitaItems, perPage <= len(qiitaItems), nil
 }
 
-func sendGetStockerRequest(cl client.QiitaClient, itemID string) (int, error) {
-	parameter := client.NewGetStockersParameter(itemID)
-	stockers, err := cl.GetStockers(parameter)
-	if err != nil {
-		return 0, err
-	}
-	return len(stockers), nil
-}
+// func sendGetStockerRequest(cl client.QiitaClient, itemID string) (int, error) {
+// 	parameter := client.NewGetStockersParameter(itemID)
+// 	stockers, err := cl.GetStockers(parameter)
+// 	if err != nil {
+// 		return 0, err
+// 	}
+// 	return len(stockers), nil
+// }
 
 func toModel(resItems []*apiModel.QiitaItem, stocks map[string]int, page int64, hasNext bool) *genModel.Items {
 	items := make([]*genModel.Item, 0, len(resItems))
@@ -159,4 +159,8 @@ func contents(apiItem *apiModel.QiitaItem) string {
 		return ""
 	}
 	return doc.FindMatcher(contentTags).Text()
+}
+
+func unusedFunc(ss string) {
+	fmt.Printf(ss)
 }
