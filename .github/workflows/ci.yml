@@ -17,7 +17,10 @@ jobs:
         uses: reviewdog/action-golangci-lint@v1
         with:
           tool_name: golint
-          level: info
+          golangci_lint_flags: "-c .golangci.yml"
+          reporter: github-pr-review
+          level: warning
+          fail_on_error: true
 
   unit-test:
     name: Unit Test
