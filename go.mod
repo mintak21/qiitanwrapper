@@ -4,7 +4,9 @@ go 1.13
 
 require (
 	github.com/PuerkitoBio/goquery v1.5.1
-	github.com/andybalholm/cascadia v1.1.0
+	github.com/andybalholm/cascadia v1.2.0
+	github.com/carbocation/interpose v0.0.0-20161206215253-723534742ba3
+	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0 // indirect
 	github.com/didip/tollbooth v4.0.2+incompatible
 	github.com/go-openapi/errors v0.19.6
 	github.com/go-openapi/loads v0.19.5
@@ -17,7 +19,7 @@ require (
 	github.com/go-resty/resty/v2 v2.3.0
 	github.com/jessevdk/go-flags v1.4.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
-	github.com/sirupsen/logrus v1.4.2
+	github.com/sirupsen/logrus v1.6.0
 	golang.org/x/net v0.0.0-20200707034311-ab3426394381
 	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4 // indirect
 )

@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Set up Golang
         id: setup
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v2.1.2
         with:
           go-version: 1.14
 
@@ -74,11 +74,11 @@ jobs:
         service: [api, ci-test]
 
     steps:
-      # - name: Setup Go
-      #   id: setup
-      #   uses: actions/setup-go@v1
-      #   with:
-      #     go-version: 1.14
+      - name: Setup Go
+        id: setup
+        uses: actions/setup-go@v2.1.2
+        with:
+          go-version: 1.14
 
       # - name: Install Dockle
       #   env:

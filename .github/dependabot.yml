@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: gomod
+    directory: "/"
+    target-branch: master
+    labels:
+      - dependencies
+    schedule:
+      interval: weekly
+      time: "14:00"
+      timezone: Asia/Tokyo
+    open-pull-requests-limit: 10
+    reviewers:
+      - mintak21
+  - package-ecosystem: github-actions
+    directory: "/"
+    target-branch: master
+    schedule:
+      interval: weekly
+      day: saturday
+      time: "12:00"
+      timezone: Asia/Tokyo
+    open-pull-requests-limit: 10
+    reviewers:
+      - mintak21
