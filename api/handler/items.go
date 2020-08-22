@@ -120,6 +120,10 @@ func sendGetStockerRequest(cl client.QiitaClient, itemID string) (int, error) {
 	return len(stockers), nil
 }
 
+func unused() int {
+	return 2
+}
+
 func toModel(resItems []*apiModel.QiitaItem, stocks map[string]int, page int64, hasNext bool) *genModel.Items {
 	items := make([]*genModel.Item, 0, len(resItems))
 	for _, resItem := range resItems {
