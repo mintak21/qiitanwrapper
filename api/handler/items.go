@@ -124,6 +124,10 @@ func reviewDogTest() int {
 	return 5
 }
 
+func reviewDogTest2() int {
+	return 5
+}
+
 func toModel(resItems []*apiModel.QiitaItem, stocks map[string]int, page int64, hasNext bool) *genModel.Items {
 	items := make([]*genModel.Item, 0, len(resItems))
 	for _, resItem := range resItems {
