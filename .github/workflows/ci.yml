@@ -4,7 +4,7 @@ on:
   pull_request:
 
 jobs:
-  lint:
+  go-lint:
     name: Go Lint
     runs-on: ubuntu-18.04
     steps:
@@ -20,8 +20,9 @@ jobs:
           reporter: github-pr-review
           fail_on_error: true
 
-  unit-test:
-    name: Unit Test
+  go-unit-test:
+    name: Go Unit Test
+    needs: [go-lint]
     runs-on: ubuntu-18.04
     steps:
       - name: Set up Golang
@@ -46,9 +47,24 @@ jobs:
         id: test
         run: go test ./... -cover
 
+  dockerfile-lint:
+    name: Dockerfile Lint
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v2
+
+      - name: Lint
+        id: lint
+        uses: reviewdog/action-hadolint@v1
+        with:
+          reporter: github-pr-review
+          fail_on_error: true
+
   scan:
     name: Scan Image
-    needs: [lint, unit-test]
+    needs: [go-lint, go-unit-test, dockerfile-lint]
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
