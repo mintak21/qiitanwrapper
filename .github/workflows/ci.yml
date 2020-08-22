@@ -14,9 +14,10 @@ jobs:
 
       - name: Lint
         id: lint
-        uses: golangci/golangci-lint-action@v2
+        uses: reviewdog/action-golangci-lint@v1
         with:
-          version: v1.30
+          tool_name: golint
+          level: warning
 
   unit-test:
     name: Unit Test
