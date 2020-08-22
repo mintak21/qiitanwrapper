@@ -22,6 +22,6 @@ require (
 	github.com/jessevdk/go-flags v1.4.0
 	github.com/meatballhat/negroni-logrus v1.1.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
-	github.com/sirupsen/logrus v1.4.2
+	github.com/sirupsen/logrus v1.6.0
 	golang.org/x/net v0.0.0-20200707034311-ab3426394381
 )
