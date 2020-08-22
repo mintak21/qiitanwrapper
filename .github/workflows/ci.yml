@@ -19,7 +19,6 @@ jobs:
           tool_name: golint
           golangci_lint_flags: "-c .golangci.yml"
           reporter: github-pr-review
-          level: warning
           fail_on_error: true
 
   unit-test:
