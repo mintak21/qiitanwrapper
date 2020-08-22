@@ -14,10 +14,9 @@ jobs:
 
       - name: Lint
         id: lint
-        uses: reviewdog/action-golangci-lint@v1
+        uses: golangci/golangci-lint-action@v2
         with:
-          tool_name: golint
-          reporter: github-pr-review
+          version: v1.30
 
   unit-test:
     name: Unit Test
