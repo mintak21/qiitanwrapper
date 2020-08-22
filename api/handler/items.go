@@ -121,7 +121,9 @@ func sendGetStockerRequest(cl client.QiitaClient, itemID string) (int, error) {
 }
 
 func unused() int {
-	return 2
+	t := 2
+	f := t + 1
+	return f
 }
 
 func toModel(resItems []*apiModel.QiitaItem, stocks map[string]int, page int64, hasNext bool) *genModel.Items {
