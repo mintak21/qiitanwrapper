@@ -17,6 +17,7 @@ jobs:
         uses: reviewdog/action-golangci-lint@v1
         with:
           tool_name: golint
+          reporter: github-pr-review
 
   unit-test:
     name: Unit Test
