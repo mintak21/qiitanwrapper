@@ -18,8 +18,6 @@ jobs:
         with:
           golangci_lint_flags: "-c .golangci.yml"
           reporter: github-pr-review
-          level: info
-          filter_mode: added
           fail_on_error: true
 
   unit-test:
