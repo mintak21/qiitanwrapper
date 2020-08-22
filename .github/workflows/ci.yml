@@ -17,7 +17,6 @@ jobs:
         uses: reviewdog/action-golangci-lint@v1
         with:
           tool_name: golint
-          level: warning
 
   unit-test:
     name: Unit Test
