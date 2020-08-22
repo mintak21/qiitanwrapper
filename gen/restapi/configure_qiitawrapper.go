@@ -6,15 +6,10 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	"github.com/carbocation/interpose/adaptors"
-	"github.com/dre1080/recovr"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/meatballhat/negroni-logrus"
-	log "github.com/sirupsen/logrus"
 
-	mymiddleware "github.com/mintak21/qiitaWrapper/api/middleware"
 	"github.com/mintak21/qiitaWrapper/gen/restapi/qiitawrapper"
 	"github.com/mintak21/qiitaWrapper/gen/restapi/qiitawrapper/items"
 )
@@ -28,11 +23,12 @@ func configureFlags(api *qiitawrapper.QiitawrapperAPI) {
 func configureAPI(api *qiitawrapper.QiitawrapperAPI) http.Handler {
 	// configure the api here
 	api.ServeError = errors.ServeError
-	errors.DefaultHTTPCode = http.StatusBadRequest
 
 	// Set your custom logger if needed. Default one is log.Printf
 	// Expected interface func(string, ...interface{})
-	api.Logger = log.Infof
+	//
+	// Example:
+	// api.Logger = log.Printf
 
 	api.UseSwaggerUI()
 	// To continue using redoc as your UI, uncomment the following line
@@ -42,9 +38,9 @@ func configureAPI(api *qiitawrapper.QiitawrapperAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	if api.ItemsGetHighQualityItemsHandler == nil {
-		api.ItemsGetHighQualityItemsHandler = items.GetHighQualityItemsHandlerFunc(func(params items.GetHighQualityItemsParams) middleware.Responder {
-			return middleware.NotImplemented("operation items.GetHighQualityItems has not yet been implemented")
+	if api.ItemsGetMonthlyTrendItemsHandler == nil {
+		api.ItemsGetMonthlyTrendItemsHandler = items.GetMonthlyTrendItemsHandlerFunc(func(params items.GetMonthlyTrendItemsParams) middleware.Responder {
+			return middleware.NotImplemented("operation items.GetMonthlyTrendItems has not yet been implemented")
 		})
 	}
 	if api.ItemsGetTagItemsHandler == nil {
@@ -80,13 +76,11 @@ func configureServer(s *http.Server, scheme, addr string) {
 // The middleware configuration is for the handler executors. These do not apply to the swagger.json document.
 // The middleware executes after routing but before authentication, binding and validation
 func setupMiddlewares(handler http.Handler) http.Handler {
-	return mymiddleware.BodySizeLimit(mymiddleware.RequestQuotaLimit(handler))
+	return handler
 }
 
 // The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
-	recovery := recovr.New()
-	logViaLogrus := adaptors.FromNegroni(negronilogrus.NewCustomMiddleware(log.InfoLevel, &log.JSONFormatter{}, "web"))
-	return recovery(logViaLogrus(handler))
+	return handler
 }

@@ -39,60 +39,9 @@ func init() {
   },
   "basePath": "/api/v1",
   "paths": {
-    "/items/high_qualities": {
-      "get": {
-        "description": "指定月に投稿された記事のうち、LGTM数の多い順に50個の記事を取得。",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "items"
-        ],
-        "summary": "LGTMの多い記事を取得。",
-        "operationId": "getHighQualityItems",
-        "parameters": [
-          {
-            "type": "string",
-            "format": "date",
-            "description": "対象日付（日付形式で指定し、その月を対象とする）",
-            "name": "date",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Items"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        }
-      }
-    },
     "/items/sync/{tag}": {
       "get": {
-        "description": "指定日付に投稿された記事を一覧で取得。一度に取得できる記事の数は50固定。",
+        "description": "指定日付に投稿された記事を一覧で取得。一度に取得できる記事の数は100固定。",
         "consumes": [
           "application/json"
         ],
@@ -141,8 +90,47 @@ func init() {
               "$ref": "#/definitions/Error"
             }
           },
-          "404": {
-            "description": "Not Found",
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/items/trends": {
+      "get": {
+        "description": "指定月に投稿された記事のうち、ストック数の多い順に100個の記事を取得。",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "items"
+        ],
+        "summary": "指定月ストック数の多い記事を取得。",
+        "operationId": "getMonthlyTrendItems",
+        "parameters": [
+          {
+            "pattern": "[0-9][0-9][0-9][0-9]-[0-9][0-9]",
+            "type": "string",
+            "description": "対象日付（日付形式で指定し、その月を対象とする）",
+            "name": "target_month",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Items"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -158,7 +146,7 @@ func init() {
     },
     "/items/{tag}": {
       "get": {
-        "description": "指定したタグの記事の取得。1度に取得する件数は50固定。",
+        "description": "指定したタグの記事の取得。1度に取得する件数は100固定。",
         "produces": [
           "application/json"
         ],
@@ -197,12 +185,6 @@ func init() {
               "$ref": "#/definitions/Error"
             }
           },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
           "500": {
             "description": "Internal Server Error",
             "schema": {
@@ -223,7 +205,8 @@ func init() {
           "type": "string",
           "example": "Bad Request"
         }
-      }
+      },
+      "x-examples": {}
     },
     "Item": {
       "type": "object",
@@ -355,60 +338,9 @@ func init() {
   },
   "basePath": "/api/v1",
   "paths": {
-    "/items/high_qualities": {
-      "get": {
-        "description": "指定月に投稿された記事のうち、LGTM数の多い順に50個の記事を取得。",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "items"
-        ],
-        "summary": "LGTMの多い記事を取得。",
-        "operationId": "getHighQualityItems",
-        "parameters": [
-          {
-            "type": "string",
-            "format": "date",
-            "description": "対象日付（日付形式で指定し、その月を対象とする）",
-            "name": "date",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Items"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        }
-      }
-    },
     "/items/sync/{tag}": {
       "get": {
-        "description": "指定日付に投稿された記事を一覧で取得。一度に取得できる記事の数は50固定。",
+        "description": "指定日付に投稿された記事を一覧で取得。一度に取得できる記事の数は100固定。",
         "consumes": [
           "application/json"
         ],
@@ -457,8 +389,47 @@ func init() {
               "$ref": "#/definitions/Error"
             }
           },
-          "404": {
-            "description": "Not Found",
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/items/trends": {
+      "get": {
+        "description": "指定月に投稿された記事のうち、ストック数の多い順に100個の記事を取得。",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "items"
+        ],
+        "summary": "指定月ストック数の多い記事を取得。",
+        "operationId": "getMonthlyTrendItems",
+        "parameters": [
+          {
+            "pattern": "[0-9][0-9][0-9][0-9]-[0-9][0-9]",
+            "type": "string",
+            "description": "対象日付（日付形式で指定し、その月を対象とする）",
+            "name": "target_month",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Items"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -474,7 +445,7 @@ func init() {
     },
     "/items/{tag}": {
       "get": {
-        "description": "指定したタグの記事の取得。1度に取得する件数は50固定。",
+        "description": "指定したタグの記事の取得。1度に取得する件数は100固定。",
         "produces": [
           "application/json"
         ],
@@ -513,12 +484,6 @@ func init() {
               "$ref": "#/definitions/Error"
             }
           },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
           "500": {
             "description": "Internal Server Error",
             "schema": {
@@ -539,7 +504,8 @@ func init() {
           "type": "string",
           "example": "Bad Request"
         }
-      }
+      },
+      "x-examples": {}
     },
     "Item": {
       "type": "object",

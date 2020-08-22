@@ -33,7 +33,7 @@ func NewGetTagItems(ctx *middleware.Context, handler GetTagItemsHandler) *GetTag
 
 指定したタグの記事の取得
 
-指定したタグの記事の取得。1度に取得する件数は50固定。
+指定したタグの記事の取得。1度に取得する件数は100固定。
 
 */
 type GetTagItems struct {

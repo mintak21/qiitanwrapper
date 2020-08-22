@@ -43,10 +43,6 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/Error'
-        '404':
-          description: Not Found
-          schema:
-            $ref: '#/definitions/Error'
         '500':
           description: Internal Server Error
           schema:
@@ -88,32 +84,28 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/Error'
-        '404':
-          description: Not Found
-          schema:
-            $ref: '#/definitions/Error'
         '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-  /items/high_qualities:
+  /items/trends:
     get:
       tags:
         - items
-      summary: LGTMの多い記事を取得。
-      description: 指定月に投稿された記事のうち、LGTM数の多い順に100個の記事を取得。
-      operationId: getHighQualityItems
+      summary: 指定月ストック数の多い記事を取得。
+      description: 指定月に投稿された記事のうち、ストック数の多い順に100個の記事を取得。
+      operationId: getMonthlyTrendItems
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
-        - name: date
+        - name: target_month
           in: query
           type: string
-          format: date
           required: false
           description: 対象日付（日付形式で指定し、その月を対象とする）
+          pattern: '[0-9][0-9][0-9][0-9]-[0-9][0-9]'
       responses:
         '200':
           description: OK
@@ -123,14 +115,11 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/Error'
-        '404':
-          description: Not Found
-          schema:
-            $ref: '#/definitions/Error'
         '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/Error'
+    parameters: []
 definitions:
   Items:
     type: object
@@ -215,6 +204,7 @@ definitions:
       message:
         type: string
         example: Bad Request
+    x-examples: {}
 consumes:
   - application/json
 produces:

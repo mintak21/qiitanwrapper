@@ -9,13 +9,11 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
-
-	"github.com/go-openapi/strfmt"
 )
 
-// GetHighQualityItemsURL generates an URL for the get high quality items operation
-type GetHighQualityItemsURL struct {
-	Date *strfmt.Date
+// GetMonthlyTrendItemsURL generates an URL for the get monthly trend items operation
+type GetMonthlyTrendItemsURL struct {
+	TargetMonth *string
 
 	_basePath string
 	// avoid unkeyed usage
@@ -25,7 +23,7 @@ type GetHighQualityItemsURL struct {
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *GetHighQualityItemsURL) WithBasePath(bp string) *GetHighQualityItemsURL {
+func (o *GetMonthlyTrendItemsURL) WithBasePath(bp string) *GetMonthlyTrendItemsURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -33,15 +31,15 @@ func (o *GetHighQualityItemsURL) WithBasePath(bp string) *GetHighQualityItemsURL
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *GetHighQualityItemsURL) SetBasePath(bp string) {
+func (o *GetMonthlyTrendItemsURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *GetHighQualityItemsURL) Build() (*url.URL, error) {
+func (o *GetMonthlyTrendItemsURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/items/high_qualities"
+	var _path = "/items/trends"
 
 	_basePath := o._basePath
 	if _basePath == "" {
@@ -51,12 +49,12 @@ func (o *GetHighQualityItemsURL) Build() (*url.URL, error) {
 
 	qs := make(url.Values)
 
-	var dateQ string
-	if o.Date != nil {
-		dateQ = o.Date.String()
+	var targetMonthQ string
+	if o.TargetMonth != nil {
+		targetMonthQ = *o.TargetMonth
 	}
-	if dateQ != "" {
-		qs.Set("date", dateQ)
+	if targetMonthQ != "" {
+		qs.Set("target_month", targetMonthQ)
 	}
 
 	_result.RawQuery = qs.Encode()
@@ -65,7 +63,7 @@ func (o *GetHighQualityItemsURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *GetHighQualityItemsURL) Must(u *url.URL, err error) *url.URL {
+func (o *GetMonthlyTrendItemsURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -76,17 +74,17 @@ func (o *GetHighQualityItemsURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *GetHighQualityItemsURL) String() string {
+func (o *GetMonthlyTrendItemsURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *GetHighQualityItemsURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *GetMonthlyTrendItemsURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on GetHighQualityItemsURL")
+		return nil, errors.New("scheme is required for a full url on GetMonthlyTrendItemsURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on GetHighQualityItemsURL")
+		return nil, errors.New("host is required for a full url on GetMonthlyTrendItemsURL")
 	}
 
 	base, err := o.Build()
@@ -100,6 +98,6 @@ func (o *GetHighQualityItemsURL) BuildFull(scheme, host string) (*url.URL, error
 }
 
 // StringFull returns the string representation of a complete url
-func (o *GetHighQualityItemsURL) StringFull(scheme, host string) string {
+func (o *GetMonthlyTrendItemsURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }

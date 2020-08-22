@@ -101,50 +101,6 @@ func (o *GetTagItemsBadRequest) WriteResponse(rw http.ResponseWriter, producer r
 	}
 }
 
-// GetTagItemsNotFoundCode is the HTTP code returned for type GetTagItemsNotFound
-const GetTagItemsNotFoundCode int = 404
-
-/*GetTagItemsNotFound Not Found
-
-swagger:response getTagItemsNotFound
-*/
-type GetTagItemsNotFound struct {
-
-	/*
-	  In: Body
-	*/
-	Payload *models.Error `json:"body,omitempty"`
-}
-
-// NewGetTagItemsNotFound creates GetTagItemsNotFound with default headers values
-func NewGetTagItemsNotFound() *GetTagItemsNotFound {
-
-	return &GetTagItemsNotFound{}
-}
-
-// WithPayload adds the payload to the get tag items not found response
-func (o *GetTagItemsNotFound) WithPayload(payload *models.Error) *GetTagItemsNotFound {
-	o.Payload = payload
-	return o
-}
-
-// SetPayload sets the payload to the get tag items not found response
-func (o *GetTagItemsNotFound) SetPayload(payload *models.Error) {
-	o.Payload = payload
-}
-
-// WriteResponse to the client
-func (o *GetTagItemsNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
-
-	rw.WriteHeader(404)
-	if o.Payload != nil {
-		payload := o.Payload
-		if err := producer.Produce(rw, payload); err != nil {
-			panic(err) // let the recovery middleware deal with this
-		}
-	}
-}
-
 // GetTagItemsInternalServerErrorCode is the HTTP code returned for type GetTagItemsInternalServerError
 const GetTagItemsInternalServerErrorCode int = 500
 
