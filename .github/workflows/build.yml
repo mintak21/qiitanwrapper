@@ -57,7 +57,8 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: mintak/qiitawrapper/${{ matrix.service }}
           DOCKER_FILE: deployment/dockerfile/${{ matrix.service }}/Dockerfile
-          IMAGE_TAG: ${{ steps.version.outputs.source_branch }}-${{ github.sha }}
+          #IMAGE_TAG: ${{ steps.version.outputs.source_branch }}-${{ github.sha }}
+          IMAGE_TAG: test
         run: |
           docker build -f ${DOCKER_FILE} -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
           docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
