@@ -6,8 +6,9 @@ on:
       - master
   pull_request:
 
-# env:
-#   DOCKER_BUILDKIT: 1
+env:
+  DOCKER_BUILDKIT: 1
+  IMAGE_CACHE_DIR: /tmp/docker/cache
 
 jobs:
   build:
@@ -42,14 +43,24 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      # Cache References : https://github.com/actions/cache/pull/37/files
       - name: Cache Docker Image
         id: cache
         uses: actions/cache@v2
         with:
-          path: /tmp/cache
+          path: ${{ env.IMAGE_CACHE_DIR }}
           key: ${{ runner.os }}-${{ matrix.service }}-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.service }}-
+
+      - name: Load Cache
+        id: load
+        run: |
+          if [ -d "${IMAGE_CACHE_DIR}" ]; then
+            cat ${IMAGE_CACHE_DIR}/x* > image.tar
+            docker load < image.tar
+            rm -rf ${IMAGE_CACHE_DIR}
+          fi
 
       - name: Build and push image to Amazon ECR
         id: build-image
@@ -60,7 +71,7 @@ jobs:
           #IMAGE_TAG: ${{ steps.version.outputs.source_branch }}-${{ github.sha }}
           IMAGE_TAG: test
         run: |
-          docker build -f ${DOCKER_FILE} -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
+          docker build -f ${DOCKER_FILE} --cache-from image -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
           docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
 
       - name: Logout From Amazon ECR
