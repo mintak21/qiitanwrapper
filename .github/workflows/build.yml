@@ -6,11 +6,14 @@ on:
       - master
   pull_request:
 
+env:
+  DOCKER_BUILDKIT: 1
+
 jobs:
   build:
     name: Build And Push Docker Image
     runs-on: ubuntu-18.04
-    if: github.event_name == 'push'
+    #if: github.event_name == 'push'
     strategy:
       fail-fast: false
       matrix:
@@ -38,6 +41,15 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Cache Docker Image
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: /tmp/cache
+          key: ${{ runner.os }}-${{ matrix.service }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.service }}-
 
       - name: Build and push image to Amazon ECR
         id: build-image
