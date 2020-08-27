@@ -3,6 +3,10 @@ name: Unit Test and Check Docker Image
 on:
   pull_request:
 
+env:
+  DOCKER_BUILDKIT: 1
+  IMAGE_CACHE_DIR: /tmp/docker/ci/cache
+
 jobs:
   go-lint:
     name: Go Lint
@@ -83,11 +87,29 @@ jobs:
         id: checkout
         uses: actions/checkout@v2
 
+      - name: Cache Docker Image
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.IMAGE_CACHE_DIR }}
+          key: ${{ runner.os }}-${{ matrix.service }}-ci-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.service }}-ci-
+
+      - name: Load Cache
+        id: load
+        run: |
+          if [ -d "${IMAGE_CACHE_DIR}" ]; then
+            cat ${IMAGE_CACHE_DIR}/x* > image.tar
+            docker load < image.tar
+            rm -rf ${IMAGE_CACHE_DIR}
+          fi
+
       - name: Build image from Dockerfile
         id: build
         run: |
           TAG="${{ matrix.service }}:ci"
-          docker build -f deployment/dockerfile/${{ matrix.service }}/Dockerfile -t ${TAG} .
+          docker build -f deployment/dockerfile/${{ matrix.service }}/Dockerfile --cache-from image -t ${TAG} .
           echo "::set-output name=tag::${TAG}"
 
       # - name: Run Vulnerability Scanner
