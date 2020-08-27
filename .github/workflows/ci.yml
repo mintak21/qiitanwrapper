@@ -23,7 +23,6 @@ jobs:
 
   go-unit-test:
     name: Go Unit Test
-    needs: [go-lint]
     runs-on: ubuntu-18.04
     steps:
       - name: Set up Golang
@@ -35,14 +34,6 @@ jobs:
       - name: Checkout code
         id: checkout
         uses: actions/checkout@v2
-
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
 
       - name: Unit Test
         id: test
