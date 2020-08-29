@@ -63,7 +63,7 @@ jobs:
         id: scan
         uses: securego/gosec@v2.4.0
         with:
-          args: ./...
+          args: -exclude-dir=gen ./...
 
   dockerfile-lint:
     name: Dockerfile Lint
@@ -83,7 +83,7 @@ jobs:
 
   scan:
     name: Scan Image
-    needs: [go-lint, go-unit-test, dockerfile-lint]
+    needs: [go-lint, go-unit-test, go-security, dockerfile-lint]
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
