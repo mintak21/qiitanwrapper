@@ -1,3 +1,5 @@
+|ci| |cov| |licence|
+
 # QiitaAPIのWrapper
 
 k8sクラスタ上で動くAPIのサンプルという意味合いで作成
@@ -22,3 +24,12 @@ k8sクラスタ上で動くAPIのサンプルという意味合いで作成
 ├── README.md
 └── swagger/           # ドキュメント
 ```
+
+.. |ci| image:: https://circleci.com/gh/mintak21/texas-holdem-poker.svg?style=shield&circle-token=dc9af5b436e25a00bb0c3dd4e12cdc8c7aeb2904
+   :target: https://circleci.com/gh/mintak21/texas-holdem-poker
+
+.. |cov| image:: https://codecov.io/gh/mintak21/qiitanWrapper/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/mintak21/qiitanWrapper
+
+.. |licence| image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+  :target: https://github.com/mintak21/qiitanWrapper/blob/master/LICENSE

@@ -40,7 +40,14 @@ jobs:
 
       - name: Unit Test
         id: test
-        run: go test ./... -cover
+        run: go test ./... -cover -coverprofile=./cover.out
+
+      - uses: codecov/codecov-action@v1
+        with:
+          file: ./cover.out
+          flags: unittests
+          name: codecov-umbrella # optional
+          fail_ci_if_error: false
 
   dockerfile-lint:
     name: Dockerfile Lint
