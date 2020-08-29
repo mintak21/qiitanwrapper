@@ -16,7 +16,7 @@ const (
 	qiitaDomain      = "https://qiita.com"
 	itemsEndpoint    = "/api/v2/items"
 	stockersEndpoint = "/api/v2/items/%s/stockers"
-	timeout          = 3 * time.Second
+	timeout          = 10 * time.Second
 	defaultPage      = 1
 	defaultPerPage   = 100
 )

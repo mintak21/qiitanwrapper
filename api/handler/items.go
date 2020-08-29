@@ -16,7 +16,10 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const perPage = 100
+const (
+	perPage          = 100
+	rfc3339DateMonth = "2006-01"
+)
 
 var contentTags = cascadia.MustCompile("h1, h2")
 
@@ -39,6 +42,17 @@ func NewSyncTagItemsHandler() items.SyncTagItemsHandler {
 }
 
 type syncTagItemsHandler struct {
+	client client.QiitaClient
+}
+
+// NewMonthlyTrendItemsHandler handles a request for getting monthly tread tag items
+func NewMonthlyTrendItemsHandler() items.GetMonthlyTrendItemsHandler {
+	return &monthlyTrendItemsHandler{
+		client: client.NewQiitaClient(),
+	}
+}
+
+type monthlyTrendItemsHandler struct {
 	client client.QiitaClient
 }
 
@@ -87,6 +101,46 @@ func (h *syncTagItemsHandler) Handle(params items.SyncTagItemsParams) middleware
 	}
 
 	return items.NewSyncTagItemsOK().WithPayload(toModel(response, stocksMap, *params.Page, hasNext))
+}
+
+func (h *monthlyTrendItemsHandler) Handle(params items.GetMonthlyTrendItemsParams) middleware.Responder {
+	var fromTime time.Time
+	if params.TargetMonth == nil {
+		fromTime = time.Now()
+	} else {
+		parseTime, err := time.Parse(rfc3339DateMonth, *params.TargetMonth)
+		if err != nil {
+			log.WithFields(log.Fields{
+				"err": err,
+			}).Error(("failed to parse param"))
+			return items.NewGetMonthlyTrendItemsBadRequest().WithPayload(&genModel.Error{Message: err.Error()})
+		}
+		fromTime = parseTime
+	}
+	toTime := fromTime.AddDate(0, 1, 0)
+
+	fromMonth := fromTime.Format(rfc3339DateMonth)
+	toMonth := toTime.Format(rfc3339DateMonth)
+	fixedPage := 1
+
+	query := fmt.Sprintf("created:>=%s created:<%s stocks:>=%v", fromMonth, toMonth, 150)
+
+	response, _, err := sendGetItemRequest(h.client, fixedPage, query)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Error(("failed to send request to Qiita API"))
+		return items.NewGetMonthlyTrendItemsInternalServerError().WithPayload(&genModel.Error{Message: err.Error()})
+	}
+	stocksMap, err := createStocksMap(h.client, response)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Error(("failed to send request to Qiita API"))
+		return items.NewGetMonthlyTrendItemsInternalServerError().WithPayload(&genModel.Error{Message: err.Error()})
+	}
+
+	return items.NewGetMonthlyTrendItemsOK().WithPayload(toModel(response, stocksMap, int64(fixedPage), false))
 }
 
 func createStocksMap(clt client.QiitaClient, items []*apiModel.QiitaItem) (map[string]int, error) {

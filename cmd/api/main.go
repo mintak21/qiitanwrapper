@@ -43,6 +43,7 @@ func main() {
 	// Set Handler
 	api.ItemsGetTagItemsHandler = handler.NewGetTagItemsHandler()
 	api.ItemsSyncTagItemsHandler = handler.NewSyncTagItemsHandler()
+	api.ItemsGetMonthlyTrendItemsHandler = handler.NewMonthlyTrendItemsHandler()
 
 	// configure server
 	server.ConfigureAPI()
