@@ -49,6 +49,22 @@ jobs:
           name: codecov-umbrella # optional
           fail_ci_if_error: false
 
+  go-security:
+    name: Go Static Security Scan
+    runs-on: ubuntu-18.04
+    env:
+      GO111MODULE: on
+    steps:
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v2
+
+      - name: Scan
+        id: scan
+        uses: securego/gosec@v2.4.0
+        with:
+          args: ./...
+
   dockerfile-lint:
     name: Dockerfile Lint
     runs-on: ubuntu-18.04
