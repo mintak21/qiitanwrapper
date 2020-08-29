@@ -1,4 +1,6 @@
-|ci| |cov| |licence|
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mintak21/qiitanWrapper/Build%20And%20Push%20Docker%20Image?label=ci&style=plastic)
+![Codecov](https://img.shields.io/codecov/c/github/mintak21/qiitanWrapper?style=plastic)
+![GitHub](https://img.shields.io/github/license/mintak21/qiitanWrapper?color=aquamarine&label=License&style=plastic)
 
 # QiitaAPIのWrapper
 
@@ -24,12 +26,3 @@ k8sクラスタ上で動くAPIのサンプルという意味合いで作成
 ├── README.md
 └── swagger/           # ドキュメント
 ```
-
-.. |ci| image:: https://circleci.com/gh/mintak21/texas-holdem-poker.svg?style=shield&circle-token=dc9af5b436e25a00bb0c3dd4e12cdc8c7aeb2904
-   :target: https://circleci.com/gh/mintak21/texas-holdem-poker
-
-.. |cov| image:: https://codecov.io/gh/mintak21/qiitanWrapper/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/mintak21/qiitanWrapper
-
-.. |licence| image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-  :target: https://github.com/mintak21/qiitanWrapper/blob/master/LICENSE
