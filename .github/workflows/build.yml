@@ -7,7 +7,6 @@ on:
 
 env:
   DOCKER_BUILDKIT: 1
-  IMAGE_CACHE_DIR: /tmp/docker/cache
 
 jobs:
   build:
