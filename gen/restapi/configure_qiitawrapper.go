@@ -32,6 +32,8 @@ func configureAPI(api *qiitawrapper.QiitawrapperAPI) http.Handler {
 
 	// Set your custom logger if needed. Default one is log.Printf
 	// Expected interface func(string, ...interface{})
+	//
+	// Example:
 	api.Logger = log.Infof
 
 	api.UseSwaggerUI()
@@ -42,9 +44,9 @@ func configureAPI(api *qiitawrapper.QiitawrapperAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	if api.ItemsGetHighQualityItemsHandler == nil {
-		api.ItemsGetHighQualityItemsHandler = items.GetHighQualityItemsHandlerFunc(func(params items.GetHighQualityItemsParams) middleware.Responder {
-			return middleware.NotImplemented("operation items.GetHighQualityItems has not yet been implemented")
+	if api.ItemsGetMonthlyTrendItemsHandler == nil {
+		api.ItemsGetMonthlyTrendItemsHandler = items.GetMonthlyTrendItemsHandlerFunc(func(params items.GetMonthlyTrendItemsParams) middleware.Responder {
+			return middleware.NotImplemented("operation items.GetMonthlyTrendItems has not yet been implemented")
 		})
 	}
 	if api.ItemsGetTagItemsHandler == nil {

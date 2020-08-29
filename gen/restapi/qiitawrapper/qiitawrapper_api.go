@@ -44,8 +44,8 @@ func NewQiitawrapperAPI(spec *loads.Document) *QiitawrapperAPI {
 
 		JSONProducer: runtime.JSONProducer(),
 
-		ItemsGetHighQualityItemsHandler: items.GetHighQualityItemsHandlerFunc(func(params items.GetHighQualityItemsParams) middleware.Responder {
-			return middleware.NotImplemented("operation items.GetHighQualityItems has not yet been implemented")
+		ItemsGetMonthlyTrendItemsHandler: items.GetMonthlyTrendItemsHandlerFunc(func(params items.GetMonthlyTrendItemsParams) middleware.Responder {
+			return middleware.NotImplemented("operation items.GetMonthlyTrendItems has not yet been implemented")
 		}),
 		ItemsGetTagItemsHandler: items.GetTagItemsHandlerFunc(func(params items.GetTagItemsParams) middleware.Responder {
 			return middleware.NotImplemented("operation items.GetTagItems has not yet been implemented")
@@ -87,8 +87,8 @@ type QiitawrapperAPI struct {
 	//   - application/json
 	JSONProducer runtime.Producer
 
-	// ItemsGetHighQualityItemsHandler sets the operation handler for the get high quality items operation
-	ItemsGetHighQualityItemsHandler items.GetHighQualityItemsHandler
+	// ItemsGetMonthlyTrendItemsHandler sets the operation handler for the get monthly trend items operation
+	ItemsGetMonthlyTrendItemsHandler items.GetMonthlyTrendItemsHandler
 	// ItemsGetTagItemsHandler sets the operation handler for the get tag items operation
 	ItemsGetTagItemsHandler items.GetTagItemsHandler
 	// ItemsSyncTagItemsHandler sets the operation handler for the sync tag items operation
@@ -169,8 +169,8 @@ func (o *QiitawrapperAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
-	if o.ItemsGetHighQualityItemsHandler == nil {
-		unregistered = append(unregistered, "items.GetHighQualityItemsHandler")
+	if o.ItemsGetMonthlyTrendItemsHandler == nil {
+		unregistered = append(unregistered, "items.GetMonthlyTrendItemsHandler")
 	}
 	if o.ItemsGetTagItemsHandler == nil {
 		unregistered = append(unregistered, "items.GetTagItemsHandler")
@@ -269,7 +269,7 @@ func (o *QiitawrapperAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/items/high_qualities"] = items.NewGetHighQualityItems(o.context, o.ItemsGetHighQualityItemsHandler)
+	o.handlers["GET"]["/items/trends"] = items.NewGetMonthlyTrendItems(o.context, o.ItemsGetMonthlyTrendItemsHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

@@ -33,7 +33,7 @@ func NewSyncTagItems(ctx *middleware.Context, handler SyncTagItemsHandler) *Sync
 
 同期的にタグの記事を取得。
 
-指定日付に投稿された記事を一覧で取得。一度に取得できる記事の数は50固定。
+指定日付に投稿された記事を一覧で取得。一度に取得できる記事の数は100固定。
 
 */
 type SyncTagItems struct {

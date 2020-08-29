@@ -16,7 +16,9 @@ const (
 	qiitaDomain      = "https://qiita.com"
 	itemsEndpoint    = "/api/v2/items"
 	stockersEndpoint = "/api/v2/items/%s/stockers"
-	timeout          = 3 * time.Second
+	timeout          = 10 * time.Second
+	defaultPage      = 1
+	defaultPerPage   = 100
 )
 
 // QiitaClient client to Qiita API
@@ -82,7 +84,6 @@ func (c *qiitaClient) GetItems(param *GetItemsParameter) ([]*model.QiitaItem, er
 			"query":    param.Query,
 		},
 	)
-	fmt.Print(param.Common, param.Query)
 	if err != nil {
 		return nil, err
 	}
@@ -98,6 +99,10 @@ func (c *qiitaClient) GetItems(param *GetItemsParameter) ([]*model.QiitaItem, er
 // NewGetStockersParameter creates GetStockersParameter
 func NewGetStockersParameter(itemID string) *GetStockersParameter {
 	return &GetStockersParameter{
+		Common: &CommonParameter{
+			Page:    defaultPage,
+			PerPage: defaultPerPage,
+		},
 		ItemID: itemID,
 	}
 }
