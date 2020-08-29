@@ -1,6 +1,9 @@
 name: Unit Test and Check Docker Image
 
 on:
+  push:
+    branches:
+      - master
   pull_request:
 
 env:
