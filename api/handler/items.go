@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 	"time"
 
@@ -139,6 +140,7 @@ func (h *monthlyTrendItemsHandler) Handle(params items.GetMonthlyTrendItemsParam
 		}).Error(("failed to send request to Qiita API"))
 		return items.NewGetMonthlyTrendItemsInternalServerError().WithPayload(&genModel.Error{Message: err.Error()})
 	}
+	sort.SliceStable(response, func(i, j int) bool { return response[i].LikesCount > response[j].LikesCount })
 
 	return items.NewGetMonthlyTrendItemsOK().WithPayload(toModel(response, stocksMap, int64(fixedPage), false))
 }
