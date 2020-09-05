@@ -78,7 +78,7 @@ jobs:
         run: docker logout ${{ steps.login-ecr.outputs.registry }}
 
       - name: Push to GitHub Container Registry
-        id: build and push Github Container Registry
+        id: push-ghcr
         env:
           DOCKER_FILE: deployment/dockerfile/${{ matrix.service }}/Dockerfile
         uses: docker/build-push-action@v1
