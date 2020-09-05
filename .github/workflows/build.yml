@@ -86,6 +86,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
           registry: ghcr.io
-          repository: ${{ github.repository }}
+          repository: ${{ github.repository }}/${{ matrix.service }}
           dockerfile: ${{ env.DOCKER_FILE }}
           tag_with_sha: true
