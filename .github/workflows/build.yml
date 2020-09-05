@@ -2,8 +2,8 @@ name: Build And Push Docker Image
 
 on:
   push:
-    # branches:
-    #   - master
+    branches:
+      - master
 
 env:
   DOCKER_BUILDKIT: 1
