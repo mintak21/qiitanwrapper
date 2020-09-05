@@ -81,6 +81,7 @@ jobs:
         id: push-ghcr
         env:
           DOCKER_FILE: deployment/dockerfile/${{ matrix.service }}/Dockerfile
+          IMAGE_TAG: ${{ steps.version.outputs.source_branch }}-${{ github.sha }}
         uses: docker/build-push-action@v1
         with:
           username: ${{ github.actor }}
@@ -88,4 +89,4 @@ jobs:
           registry: ghcr.io
           repository: ${{ github.repository }}/${{ matrix.service }}
           dockerfile: ${{ env.DOCKER_FILE }}
-          tag_with_sha: true
+          tag_with_ref: true
