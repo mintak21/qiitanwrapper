@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qiitawrapper-api
+spec:
+  replicas: 3 # tells deployment to run 3 pods matching the template
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      name: nginx-srv
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: qiitawrapper-api-container
+          image: nginx:1.17.9-alpine
+          ports:
+            - containerPort: 80

@@ -76,3 +76,17 @@ jobs:
         id: logout-ecr
         if: always()
         run: docker logout ${{ steps.login-ecr.outputs.registry }}
+
+      - name: Push to GitHub Container Registry
+        id: push-ghcr
+        env:
+          DOCKER_FILE: deployment/dockerfile/${{ matrix.service }}/Dockerfile
+          IMAGE_TAG: ${{ steps.version.outputs.source_branch }}-${{ github.sha }}
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+          registry: ghcr.io
+          repository: ${{ github.repository }}/${{ matrix.service }}
+          dockerfile: ${{ env.DOCKER_FILE }}
+          tag_with_ref: true
