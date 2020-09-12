@@ -19,6 +19,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
+	"github.com/mintak21/qiitaWrapper/gen/restapi/qiitawrapper/health"
 	"github.com/mintak21/qiitaWrapper/gen/restapi/qiitawrapper/items"
 )
 
@@ -49,6 +50,9 @@ func NewQiitawrapperAPI(spec *loads.Document) *QiitawrapperAPI {
 		}),
 		ItemsGetTagItemsHandler: items.GetTagItemsHandlerFunc(func(params items.GetTagItemsParams) middleware.Responder {
 			return middleware.NotImplemented("operation items.GetTagItems has not yet been implemented")
+		}),
+		HealthHealthHandler: health.HealthHandlerFunc(func(params health.HealthParams) middleware.Responder {
+			return middleware.NotImplemented("operation health.Health has not yet been implemented")
 		}),
 		ItemsSyncTagItemsHandler: items.SyncTagItemsHandlerFunc(func(params items.SyncTagItemsParams) middleware.Responder {
 			return middleware.NotImplemented("operation items.SyncTagItems has not yet been implemented")
@@ -91,6 +95,8 @@ type QiitawrapperAPI struct {
 	ItemsGetMonthlyTrendItemsHandler items.GetMonthlyTrendItemsHandler
 	// ItemsGetTagItemsHandler sets the operation handler for the get tag items operation
 	ItemsGetTagItemsHandler items.GetTagItemsHandler
+	// HealthHealthHandler sets the operation handler for the health operation
+	HealthHealthHandler health.HealthHandler
 	// ItemsSyncTagItemsHandler sets the operation handler for the sync tag items operation
 	ItemsSyncTagItemsHandler items.SyncTagItemsHandler
 	// ServeError is called when an error is received, there is a default handler
@@ -174,6 +180,9 @@ func (o *QiitawrapperAPI) Validate() error {
 	}
 	if o.ItemsGetTagItemsHandler == nil {
 		unregistered = append(unregistered, "items.GetTagItemsHandler")
+	}
+	if o.HealthHealthHandler == nil {
+		unregistered = append(unregistered, "health.HealthHandler")
 	}
 	if o.ItemsSyncTagItemsHandler == nil {
 		unregistered = append(unregistered, "items.SyncTagItemsHandler")
@@ -274,6 +283,10 @@ func (o *QiitawrapperAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/items/{tag}"] = items.NewGetTagItems(o.context, o.ItemsGetTagItemsHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/health"] = health.NewHealth(o.context, o.HealthHealthHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

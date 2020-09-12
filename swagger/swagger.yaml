@@ -120,6 +120,21 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     parameters: []
+  /health:
+    get:
+      tags:
+        - health
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties: {}
+          examples:
+            OK: {}
+      operationId: health
+      description: コンテナヘルスチェック確認用エンドポイント
+      summary: ヘルスチェック
 definitions:
   Items:
     type: object

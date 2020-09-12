@@ -39,6 +39,27 @@ func init() {
   },
   "basePath": "/api/v1",
   "paths": {
+    "/health": {
+      "get": {
+        "description": "コンテナヘルスチェック確認用エンドポイント",
+        "tags": [
+          "health"
+        ],
+        "summary": "ヘルスチェック",
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            },
+            "examples": {
+              "OK": {}
+            }
+          }
+        }
+      }
+    },
     "/items/sync/{tag}": {
       "get": {
         "description": "指定日付に投稿された記事を一覧で取得。一度に取得できる記事の数は100固定。",
@@ -338,6 +359,27 @@ func init() {
   },
   "basePath": "/api/v1",
   "paths": {
+    "/health": {
+      "get": {
+        "description": "コンテナヘルスチェック確認用エンドポイント",
+        "tags": [
+          "health"
+        ],
+        "summary": "ヘルスチェック",
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            },
+            "examples": {
+              "OK": {}
+            }
+          }
+        }
+      }
+    },
     "/items/sync/{tag}": {
       "get": {
         "description": "指定日付に投稿された記事を一覧で取得。一度に取得できる記事の数は100固定。",
