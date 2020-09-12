@@ -96,7 +96,7 @@ jobs:
         with:
           context: .
           file: ${{ env.DOCKER_FILE }}
-          tags: ${REPOSITORY}:${{ github.sha }}
+          tags: ${{ env.REPOSITORY }}:${{ github.sha }}
           push: true
       # v1 actions
       # - name: Login to Github Container Registry
