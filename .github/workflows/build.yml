@@ -97,7 +97,6 @@ jobs:
           context: .
           file: ${{ env.DOCKER_FILE }}
           tags: ${{ env.REPOSITORY }}:${{ github.sha }}
-          push: true
       # v1 actions
       # - name: Login to Github Container Registry
       #   id: login-ghcr
