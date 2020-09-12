@@ -62,16 +62,16 @@ jobs:
             rm -rf ${IMAGE_CACHE_DIR}
           fi
 
-      - name: Build and push image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: mintak/qiitawrapper/${{ matrix.service }}
-          DOCKER_FILE: deployment/dockerfile/${{ matrix.service }}/Dockerfile
-          IMAGE_TAG: ${{ steps.version.outputs.source_branch }}-${{ github.sha }}
-        run: |
-          docker build -f ${DOCKER_FILE} --cache-from image -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
-          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
+      # - name: Build and push image to Amazon ECR
+      #   id: build-image
+      #   env:
+      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     ECR_REPOSITORY: mintak/qiitawrapper/${{ matrix.service }}
+      #     DOCKER_FILE: deployment/dockerfile/${{ matrix.service }}/Dockerfile
+      #     IMAGE_TAG: ${{ steps.version.outputs.source_branch }}-${{ github.sha }}
+      #   run: |
+      #     docker build -f ${DOCKER_FILE} --cache-from image -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
+      #     docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
 
       - name: Logout From Amazon ECR
         id: logout-ecr
