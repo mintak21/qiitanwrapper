@@ -41,6 +41,7 @@ func main() {
 	server.Port = port
 
 	// Set Handler
+	api.HealthHealthHandler = handler.NewHealthHandler()
 	api.ItemsGetTagItemsHandler = handler.NewGetTagItemsHandler()
 	api.ItemsSyncTagItemsHandler = handler.NewSyncTagItemsHandler()
 	api.ItemsGetMonthlyTrendItemsHandler = handler.NewMonthlyTrendItemsHandler()
