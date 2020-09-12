@@ -216,3 +216,8 @@ func contents(apiItem *apiModel.QiitaItem) string {
 	}
 	return doc.FindMatcher(contentTags).Text()
 }
+
+// 利用していない関数 / マジックナンバーの使用でLint Check Errorをおこす
+func unusedFunction() int {
+	return 102
+}
