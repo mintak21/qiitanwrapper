@@ -217,6 +217,6 @@ func contents(apiItem *apiModel.QiitaItem) string {
 	return doc.FindMatcher(contentTags).Text()
 }
 
-func unusedFunction2() int {
-	return 100
+func unusedFunction3() int {
+	return 102
 }

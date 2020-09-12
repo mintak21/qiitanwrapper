@@ -23,7 +23,6 @@ jobs:
         uses: reviewdog/action-golangci-lint@v1
         with:
           golangci_lint_flags: "-c .golangci.yml"
-          reporter: github-pr-review
           filter_mode: nofilter
           level: info
 
