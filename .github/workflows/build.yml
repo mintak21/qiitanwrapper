@@ -77,16 +77,31 @@ jobs:
         if: always()
         run: docker logout ${{ steps.login-ecr.outputs.registry }}
 
+      - name: Login to Github Container Registry
+        id: login-ghcr
+        users: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
       - name: Push to GitHub Container Registry
         id: push-ghcr
         env:
           DOCKER_FILE: deployment/dockerfile/${{ matrix.service }}/Dockerfile
+          REPOSITORY: mintak/qiitawrapper/${{ matrix.service }}
           IMAGE_TAG: ${{ steps.version.outputs.source_branch }}-${{ github.sha }}
         uses: docker/build-push-action@v2
         with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_TOKEN }}
-          registry: ghcr.io
-          repository: ${{ github.repository }}/${{ matrix.service }}
-          dockerfile: ${{ env.DOCKER_FILE }}
-          tag_with_ref: true
+          context: .
+          file: ${{ env.DOCKER_FILE }}
+          tags: ${REPOSITORY}:${IMAGE_TAG}
+          push: true
+      # v1 actions
+      # - name: Login to Github Container Registry
+      #   id: login-ghcr
+      #   users: docker/login-action@v1
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.repository_owner }}
+      #     password: ${{ secrets.GHCR_TOKEN }}
