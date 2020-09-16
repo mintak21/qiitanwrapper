@@ -12,7 +12,7 @@ require (
 	github.com/didip/tollbooth v4.0.2+incompatible
 	github.com/dre1080/recovr v1.0.3
 	github.com/go-martini/martini v0.0.0-20170121215854-22fa46961aab // indirect
-	github.com/go-openapi/errors v0.19.6
+	github.com/go-openapi/errors v0.19.7
 	github.com/go-openapi/loads v0.19.5
 	github.com/go-openapi/runtime v0.19.21
 	github.com/go-openapi/spec v0.19.9
