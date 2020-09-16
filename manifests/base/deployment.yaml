@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qiitawrapper
+  labels:
+    app: qiitawrapper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qiitawrapper
+      tier: api
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: qiitawrapper
+        tier: api
+    spec:
+      containers:
+        - name: qiitawrapper-api
+          image: ghcr.io/mintak21/qiitanwrapper/api
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 25m
+              memory: 256Mi
+            requests:
+              cpu: 25m
+              memory: 256Mi
+          livenessProbe:
+            httpGet:
+              path: api/v1/health
+              port: 8090
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          envFrom:
+            - configMapRef:
+                name: qiitanwrapper-api
+      imagePullSecrets:
+        - name: qiitawrapper-image-secret
+      restartPolicy: Always
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: qiitawrapper
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: qiitawrapper
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 75
