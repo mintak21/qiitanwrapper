@@ -33,7 +33,7 @@ metadata:
 spec:
   timeoutSec: 60
   securityPolicy:
-    name: qiitawrapper-api-security-policy
+    name: qiitawrapper-security-policy
 ---
 apiVersion: v1
 kind: Service
