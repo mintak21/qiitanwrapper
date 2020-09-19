@@ -1,0 +1,65 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: qiitawrapper-ingress
+  annotations:
+    networking.gke.io/v1beta1.FrontendConfig: qiitawrapper-api-frontendconfig
+    #ingress.gcp.kubernetes.io/pre-shared-cert: "qiitawrapper-api-managed-cert" # use managed cert created by Terraform
+    networking.gke.io/managed-certificates: "qiitawrapper-api-managed-k8s-cert" # use managed cert created by Kubernetes Manifests
+    kubernetes.io/ingress.allow-http: "false"
+    kubernetes.io/ingress.global-static-ip-name: qiitawrapper-api-external-ip
+  labels:
+    app: qiitawrapper
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: qiitawrapper-backend
+              servicePort: 80
+---
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: qiitawrapper-frontendconfig
+spec:
+  sslPolicy: qiitawrapper-api-ingress-ssl-policy
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: qiitawrapper-backendconfig
+spec:
+  timeoutSec: 60
+  connectionDraining:
+    drainingTimeoutSec: 45
+  securityPolicy:
+    name: qiitawrapper-api-security-policy
+---
+apiVersion: networking.gke.io/v1beta2
+kind: ManagedCertificate
+metadata:
+  name: qiitawrapper-api-managed-k8s-cert
+spec:
+  domains:
+    - mintak.com.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qiitawrapper-backend
+  labels:
+    app: qiitawrapper
+  annotations:
+    cloud.google.com/backend-config: '{"ports": {"80":"qiitawrapper-backendconfig"}}'
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  type: ClusterIP
+  selector:
+    app: qiitawrapper
+    tier: api
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8090

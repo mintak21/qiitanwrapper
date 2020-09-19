@@ -1,0 +1,8 @@
+# Use By networking.gke.io/managed-certificates annotation
+# apiVersion: networking.gke.io/v1beta1 # use v1beta2 after 1.16.5-gke.1
+# kind: ManagedCertificate
+# metadata:
+#   name: qiitawrapper-api-managed-cert
+# spec:
+#   domains:
+#     - mintak.com
