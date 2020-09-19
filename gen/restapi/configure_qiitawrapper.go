@@ -89,6 +89,6 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	recovery := recovr.New()
-	logViaLogrus := adaptors.FromNegroni(negronilogrus.NewCustomMiddleware(log.InfoLevel, &log.JSONFormatter{}, "web"))
+	logViaLogrus := adaptors.FromNegroni(negronilogrus.NewMiddlewareFromLogger(log.StandardLogger(), "web"))
 	return recovery(logViaLogrus(handler))
 }
