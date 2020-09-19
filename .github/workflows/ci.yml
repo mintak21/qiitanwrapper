@@ -91,7 +91,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        service: [api, ci-test]
+        service: [api]
 
     steps:
       - name: Setup Go
