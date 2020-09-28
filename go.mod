@@ -19,7 +19,7 @@ require (
 	github.com/go-openapi/strfmt v0.19.5
 	github.com/go-openapi/swag v0.19.9
 	github.com/go-openapi/validate v0.19.10
-	github.com/go-playground/validator/v10 v10.3.0
+	github.com/go-playground/validator/v10 v10.4.0
 	github.com/go-resty/resty/v2 v2.3.0
 	github.com/jessevdk/go-flags v1.4.0
 	github.com/meatballhat/negroni-logrus v1.1.0
