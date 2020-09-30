@@ -30,6 +30,8 @@ github.com/aws/aws-lambda-go v1.19.1 h1:5iUHbIZ2sG6Yq/J1IN3sWm3+vAB1CWwhI21NffLN
 github.com/aws/aws-lambda-go v1.19.1/go.mod h1:jJmlefzPfGnckuHdXX7/80O3BvUUi12XOkbv4w9SGLU=
 github.com/awslabs/aws-lambda-go-api-proxy v0.8.0 h1:XUx+5PMwtZEIWc7oyMduXUfAhumHFU/xbSPwB2csYx0=
 github.com/awslabs/aws-lambda-go-api-proxy v0.8.0/go.mod h1:V3jj7BZnRY8y2QTKSABIwBc+dTjPkX7vLxz61Id7vsQ=
+github.com/awslabs/aws-lambda-go-api-proxy v0.8.1 h1:eA84rP3SBorVVuvMrpgzWzxot5bAG4mX4N+On6NQCdo=
+github.com/awslabs/aws-lambda-go-api-proxy v0.8.1/go.mod h1:V3jj7BZnRY8y2QTKSABIwBc+dTjPkX7vLxz61Id7vsQ=
 github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible/go.mod h1:osfaiScAUVup+UC9Nfq76eWqDhXlp+4UYaA8uhTBO6g=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
 github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+CedLV8=
