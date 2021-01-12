@@ -3,7 +3,7 @@ module github.com/mintak21/qiitaWrapper
 go 1.13
 
 require (
-	github.com/PuerkitoBio/goquery v1.5.1
+	github.com/PuerkitoBio/goquery v1.6.1
 	github.com/andybalholm/cascadia v1.2.0
 	github.com/aws/aws-lambda-go v1.19.1
 	github.com/awslabs/aws-lambda-go-api-proxy v0.8.1
