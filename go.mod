@@ -15,9 +15,9 @@ require (
 	github.com/go-openapi/errors v0.19.6
 	github.com/go-openapi/loads v0.19.5
 	github.com/go-openapi/runtime v0.19.21
-	github.com/go-openapi/spec v0.19.9
+	github.com/go-openapi/spec v0.20.2
 	github.com/go-openapi/strfmt v0.19.5
-	github.com/go-openapi/swag v0.19.10
+	github.com/go-openapi/swag v0.19.13
 	github.com/go-openapi/validate v0.19.10
 	github.com/go-playground/validator/v10 v10.3.0
 	github.com/go-resty/resty/v2 v2.3.0
@@ -26,5 +26,6 @@ require (
 	github.com/onsi/ginkgo v1.14.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/sirupsen/logrus v1.7.0
-	golang.org/x/net v0.0.0-20200707034311-ab3426394381
+	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
+	golang.org/x/net v0.0.0-20210119194325-5f4716e94777
 )
