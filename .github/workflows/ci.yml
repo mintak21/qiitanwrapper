@@ -20,7 +20,7 @@ jobs:
 
       - name: Lint
         id: lint
-        uses: reviewdog/action-golangci-lint@v1
+        uses: reviewdog/action-golangci-lint@v2
         with:
           golangci_lint_flags: "-c .golangci.yml"
           reporter: github-pr-review
