@@ -45,7 +45,7 @@ jobs:
         id: test
         run: go test ./... -cover -coverprofile=./cover.out
 
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v2.0.3
         with:
           file: ./cover.out
           flags: unittests
