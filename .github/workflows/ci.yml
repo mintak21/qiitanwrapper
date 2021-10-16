@@ -64,7 +64,7 @@ jobs:
 
       - name: Scan
         id: scan
-        uses: securego/gosec@v2.4.0
+        uses: securego/gosec@v2.9.1
         with:
           args: -exclude-dir=gen ./...
 
