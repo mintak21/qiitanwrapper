@@ -44,7 +44,7 @@ jobs:
       # Cache References : https://github.com/actions/cache/pull/37/files
       - name: Cache Docker Image
         id: cache
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.7
         with:
           path: ${{ env.IMAGE_CACHE_DIR }}
           key: ${{ runner.os }}-${{ matrix.service }}-${{ github.sha }}
