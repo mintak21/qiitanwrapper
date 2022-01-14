@@ -1,6 +1,6 @@
 module github.com/mintak21/qiitaWrapper
 
-go 1.13
+go 1.17
 
 require (
 	github.com/PuerkitoBio/goquery v1.6.1
@@ -8,10 +8,8 @@ require (
 	github.com/aws/aws-lambda-go v1.19.1
 	github.com/awslabs/aws-lambda-go-api-proxy v0.8.1
 	github.com/carbocation/interpose v0.0.0-20161206215253-723534742ba3
-	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0 // indirect
 	github.com/didip/tollbooth v4.0.2+incompatible
 	github.com/dre1080/recovr v1.0.3
-	github.com/go-martini/martini v0.0.0-20170121215854-22fa46961aab // indirect
 	github.com/go-openapi/errors v0.19.9
 	github.com/go-openapi/loads v0.19.5
 	github.com/go-openapi/runtime v0.19.26
@@ -23,8 +21,45 @@ require (
 	github.com/go-resty/resty/v2 v2.3.0
 	github.com/jessevdk/go-flags v1.4.0
 	github.com/meatballhat/negroni-logrus v1.1.0
-	github.com/onsi/ginkgo v1.14.0 // indirect
-	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/sirupsen/logrus v1.7.0
 	golang.org/x/net v0.0.0-20200707034311-ab3426394381
+)
+
+require (
+	github.com/PuerkitoBio/purell v1.1.1 // indirect
+	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
+	github.com/asaskevich/govalidator v0.0.0-20200428143746-21a406dcc535 // indirect
+	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0 // indirect
+	github.com/docker/go-units v0.4.0 // indirect
+	github.com/go-martini/martini v0.0.0-20170121215854-22fa46961aab // indirect
+	github.com/go-openapi/analysis v0.19.10 // indirect
+	github.com/go-openapi/jsonpointer v0.19.3 // indirect
+	github.com/go-openapi/jsonreference v0.19.4 // indirect
+	github.com/go-playground/locales v0.13.0 // indirect
+	github.com/go-playground/universal-translator v0.17.0 // indirect
+	github.com/go-stack/stack v1.8.0 // indirect
+	github.com/gobuffalo/logger v1.0.3 // indirect
+	github.com/gobuffalo/packd v1.0.0 // indirect
+	github.com/gobuffalo/packr/v2 v2.8.0 // indirect
+	github.com/google/go-cmp v0.4.0 // indirect
+	github.com/josharian/intern v1.0.0 // indirect
+	github.com/karrick/godirwalk v1.15.3 // indirect
+	github.com/leodido/go-urn v1.2.0 // indirect
+	github.com/logrusorgru/aurora v0.0.0-20181002194514-a7b3b318ed4e // indirect
+	github.com/mailru/easyjson v0.7.6 // indirect
+	github.com/markbates/errx v1.1.0 // indirect
+	github.com/markbates/oncer v1.0.0 // indirect
+	github.com/markbates/safe v1.0.1 // indirect
+	github.com/mitchellh/mapstructure v1.3.2 // indirect
+	github.com/onsi/ginkgo v1.14.0 // indirect
+	github.com/onsi/gomega v1.10.1 // indirect
+	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
+	github.com/urfave/negroni v1.0.0 // indirect
+	github.com/ztrue/tracerr v0.3.0 // indirect
+	go.mongodb.org/mongo-driver v1.3.4 // indirect
+	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
+	golang.org/x/sys v0.0.0-20200519105757-fe76b779f299 // indirect
+	golang.org/x/text v0.3.3 // indirect
+	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

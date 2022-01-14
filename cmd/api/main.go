@@ -20,7 +20,7 @@ const (
 var port int
 
 func main() {
-	// not use init() cause linter checks gochecknoinits
+	// not use init() cause linter checks gochecknoinits(golanglintci)
 	initialSetup()
 
 	// load embedded swagger file
@@ -51,7 +51,7 @@ func main() {
 
 	// serve API
 	if err := server.Serve(); err != nil {
-		log.Fatalln(err)
+		log.Error(err)
 	}
 }
 
