@@ -58,11 +58,11 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           # password: ${{ secrets.GHCR_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ghcr.io/${{ github.repository }}
+      # - name: Extract metadata (tags, labels) for Docker
+      #   id: meta
+      #   uses: docker/metadata-action@v3
+      #   with:
+      #     images: ghcr.io/${{ github.repository }}
 
       - name: Build and Push Image
         id: build-push
@@ -73,4 +73,4 @@ jobs:
           context: .
           push: true
           # tags: ghcr.io/${{ github.repository }}/${{ matrix.service }}:${{ steps.version.outputs.source_branch }}_${{ github.sha }} # ghcr.io/ 部分は必要、ただしghcr.io/{username}のusername部分はイメージ名扱いになる
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ghcr.io/${{ github.actor }}/${{ github.repository }}/api:tst
