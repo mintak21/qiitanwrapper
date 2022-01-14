@@ -89,7 +89,7 @@ jobs:
 
       - name: Build an image from Dockerfile
         run: |
-          docker build -t local/${{ matrix.dockerfile }}:${{ github.sha }} -f deployment/dockerfile/${{ matrix.dockerfile }} .
+          docker build -t local/${{ matrix.dockerfile }}:${{ github.sha }} -f deployment/dockerfile/${{ matrix.dockerfile }}/Dockerfile .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@v0.2.1
