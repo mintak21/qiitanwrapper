@@ -10,7 +10,7 @@ on:
       - deployment/**
       - go.mod
       - go.sum
-  # pull_request: #FIXME
+  pull_request: #FIXME
 
 env:
   DOCKER_BUILDKIT: 1
@@ -20,7 +20,7 @@ jobs:
     name: Build And Push Docker Image
     runs-on: ubuntu-20.04
     permissions:
-      contents: write
+      contents: read
       packages: write
 
     strategy:
