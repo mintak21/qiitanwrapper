@@ -10,7 +10,7 @@ on:
       - deployment/**
       - go.mod
       - go.sum
-    pull_request: #FIXME
+  pull_request: #FIXME
 
 env:
   DOCKER_BUILDKIT: 1
