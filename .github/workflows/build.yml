@@ -20,7 +20,7 @@ jobs:
     name: Build And Push Docker Image
     runs-on: ubuntu-20.04
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     strategy:

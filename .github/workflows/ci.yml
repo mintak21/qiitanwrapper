@@ -11,6 +11,7 @@ jobs:
     name: Go Lint
     runs-on: ubuntu-20.04
     permissions:
+      issues: write
       pull-requests: write
 
     steps:
@@ -20,8 +21,9 @@ jobs:
 
       - name: Lint
         id: lint
-        uses: reviewdog/action-golangci-lint@v1
+        uses: reviewdog/action-golangci-lint@v2
         with:
+          go_version: 1.14
           golangci_lint_flags: "-c .golangci.yml"
           reporter: github-pr-review
           filter_mode: nofilter
