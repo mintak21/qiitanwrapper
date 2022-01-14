@@ -25,10 +25,9 @@ jobs:
         with:
           go_version: 1.14
           golangci_lint_flags: "-c .golangci.yml"
-          reporter: github-pr-check
+          reporter: github-pr-review
           filter_mode: nofilter
-          github_token: ${{ secrets.GHCR_TOKEN }}
-          fail_on_error: true
+          # fail_on_error: true
 
   go-unit-test:
     name: Go Unit Test
