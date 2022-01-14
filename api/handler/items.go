@@ -19,6 +19,7 @@ import (
 
 const (
 	perPage          = 100
+	stockThreshold   = 150
 	rfc3339DateMonth = "2006-01"
 )
 
@@ -124,7 +125,7 @@ func (h *monthlyTrendItemsHandler) Handle(params items.GetMonthlyTrendItemsParam
 	toMonth := toTime.Format(rfc3339DateMonth)
 	fixedPage := 1
 
-	query := fmt.Sprintf("created:>=%s created:<%s stocks:>=%v", fromMonth, toMonth, 150)
+	query := fmt.Sprintf("created:>=%s created:<%s stocks:>=%v", fromMonth, toMonth, stockThreshold)
 
 	response, _, err := sendGetItemRequest(h.client, fixedPage, query)
 	if err != nil {
