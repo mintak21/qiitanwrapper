@@ -110,6 +110,18 @@ func TestGetStockers(t *testing.T) {
 				{
 					ID: "a6766e3efd6730c9519d", // 長さだけ関係あるので適当
 				},
+				{
+					ID: "a6766e3efd6730c9519d",
+				},
+				{
+					ID: "a6766e3efd6730c9519d",
+				},
+				{
+					ID: "a6766e3efd6730c9519d",
+				},
+				{
+					ID: "a6766e3efd6730c9519d",
+				},
 			},
 			expectedError: nil,
 		},
