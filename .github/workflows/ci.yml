@@ -10,6 +10,9 @@ jobs:
   go-lint:
     name: Go Lint
     runs-on: ubuntu-20.04
+    permissions:
+      pull-requests: write
+
     steps:
       - name: Checkout code
         id: checkout
