@@ -10,9 +10,9 @@ jobs:
   go-lint:
     name: Go Lint
     runs-on: ubuntu-20.04
-    # permissions:
-    #   issues: write
-    #   pull-requests: write
+    permissions:
+      issues: write
+      pull-requests: write
 
     steps:
       - name: Checkout code
@@ -27,6 +27,7 @@ jobs:
           golangci_lint_flags: "-c .golangci.yml"
           reporter: github-pr-review
           filter_mode: nofilter
+          github_token: ${{ secrets.GHCR_TOKEN }}
           fail_on_error: true
 
   go-unit-test:
