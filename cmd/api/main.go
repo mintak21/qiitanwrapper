@@ -51,7 +51,7 @@ func main() {
 
 	// serve API
 	if err := server.Serve(); err != nil {
-		log.Fatalln(err)
+		log.Error(err)
 	}
 }
 
