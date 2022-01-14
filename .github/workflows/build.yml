@@ -64,7 +64,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}/${{ matrix.service }}
           tags: |
-            type=sember,pattern={{version}}
+            type=semver,pattern={{version}}
             type=ref,event=branch,suffix=-{{sha}}
 
       - name: Build and Push Image
@@ -77,3 +77,4 @@ jobs:
           push: true
           # tags: ghcr.io/${{ github.repository }}/${{ matrix.service }}:${{ steps.version.outputs.source_branch }}_${{ github.sha }} # ghcr.io/ 部分は必要、ただしghcr.io/{username}のusername部分はイメージ名扱いになる
           tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
