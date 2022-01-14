@@ -27,7 +27,8 @@ jobs:
           golangci_lint_flags: "-c .golangci.yml"
           reporter: github-pr-review
           filter_mode: nofilter
-          # fail_on_error: true
+          github_token: ${{ secrets.REVIEWDOG_TEST }}
+          fail_on_error: true
 
   go-unit-test:
     name: Go Unit Test
