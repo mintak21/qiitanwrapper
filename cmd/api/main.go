@@ -20,7 +20,7 @@ const (
 var port int
 
 func main() {
-	// not use init() cause linter checks gochecknoinits
+	// not use init() cause linter checks gochecknoinits(golanglintci)
 	initialSetup()
 
 	// load embedded swagger file
