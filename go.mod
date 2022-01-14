@@ -18,11 +18,11 @@ require (
 	github.com/go-openapi/swag v0.19.15
 	github.com/go-openapi/validate v0.19.10
 	github.com/go-playground/validator/v10 v10.10.0
-	github.com/go-resty/resty/v2 v2.3.0
+	github.com/go-resty/resty/v2 v2.7.0
 	github.com/jessevdk/go-flags v1.4.0
 	github.com/meatballhat/negroni-logrus v1.1.0
 	github.com/sirupsen/logrus v1.7.0
-	golang.org/x/net v0.0.0-20210421230115-4e50805a0758
+	golang.org/x/net v0.0.0-20211029224645-99673261e6eb
 )
 
 require (
