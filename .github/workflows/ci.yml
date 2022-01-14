@@ -25,7 +25,7 @@ jobs:
         with:
           go_version: 1.14
           golangci_lint_flags: "-c .golangci.yml"
-          reporter: github-pr-review
+          reporter: github-pr-check
           filter_mode: nofilter
           github_token: ${{ secrets.GHCR_TOKEN }}
           fail_on_error: true
