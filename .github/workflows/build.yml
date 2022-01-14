@@ -10,7 +10,7 @@ on:
       - deployment/**
       - go.mod
       - go.sum
-  pull_request: #FIXME
+  # pull_request: #FIXME
 
 env:
   DOCKER_BUILDKIT: 1
@@ -55,8 +55,8 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          # password: ${{ github.token }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          password: ${{ github.token }}
+          # password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Build and Push Image
         id: build-push
@@ -66,4 +66,4 @@ jobs:
           file: deployment/dockerfile/${{ matrix.service }}/Dockerfile
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}/${{ matrix.service }}:latest # ghcr.io/ 部分は必要、ただしghcr.io/{username}のusername部分はイメージ名扱いになる
+          tags: ghcr.io/${{ github.repository }}/${{ matrix.service }}:${{ steps.version.outputs.source_branch }}_${{ github.sha }} # ghcr.io/ 部分は必要、ただしghcr.io/{username}のusername部分はイメージ名扱いになる
