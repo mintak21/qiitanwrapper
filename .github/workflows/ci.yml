@@ -12,7 +12,7 @@ env:
 jobs:
   go-lint:
     name: Go Lint
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         id: checkout
@@ -29,7 +29,7 @@ jobs:
 
   go-unit-test:
     name: Go Unit Test
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Set up Golang
         id: setup
@@ -54,7 +54,7 @@ jobs:
 
   go-security:
     name: Go Static Security Scan
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     env:
       GO111MODULE: on
     steps:
@@ -70,7 +70,7 @@ jobs:
 
   dockerfile-lint:
     name: Dockerfile Lint
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         id: checkout
@@ -84,61 +84,61 @@ jobs:
           filter_mode: nofilter
           fail_on_error: true
 
-  scan:
-    name: Scan Image
-    needs: [go-lint, go-unit-test, go-security, dockerfile-lint]
-    runs-on: ubuntu-18.04
-    strategy:
-      fail-fast: false
-      matrix:
-        service: [api]
+  # scan:
+  #   name: Scan Image
+  #   needs: [go-lint, go-unit-test, go-security, dockerfile-lint]
+  #   runs-on: ubuntu-20.04
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       service: [api]
 
-    steps:
-      - name: Setup Go
-        id: setup
-        uses: actions/setup-go@v2.1.5
-        with:
-          go-version: 1.14
+  #   steps:
+  #     - name: Setup Go
+  #       id: setup
+  #       uses: actions/setup-go@v2.1.5
+  #       with:
+  #         go-version: 1.14
 
-      # - name: Install Dockle
-      #   env:
-      #     DOCKLE_VERSION: 0.2.4
-      #   run: |
-      #     curl -L -o dockle.deb https://github.com/goodwithtech/dockle/releases/download/v${DOCKLE_VERSION}/dockle_${DOCKLE_VERSION}_Linux-64bit.deb
-      #     sudo dpkg -i dockle.deb
-      #     rm dockle.deb
+  #     # - name: Install Dockle
+  #     #   env:
+  #     #     DOCKLE_VERSION: 0.2.4
+  #     #   run: |
+  #     #     curl -L -o dockle.deb https://github.com/goodwithtech/dockle/releases/download/v${DOCKLE_VERSION}/dockle_${DOCKLE_VERSION}_Linux-64bit.deb
+  #     #     sudo dpkg -i dockle.deb
+  #     #     rm dockle.deb
 
-      - name: Checkout code
-        id: checkout
-        uses: actions/checkout@v2
+  #     - name: Checkout code
+  #       id: checkout
+  #       uses: actions/checkout@v2
 
-      - name: Build image from Dockerfile
-        id: build
-        run: |
-          TAG="${{ matrix.service }}:ci"
-          docker build -f deployment/dockerfile/${{ matrix.service }}/Dockerfile -t ${TAG} .
-          echo "::set-output name=tag::${TAG}"
+  #     - name: Build image from Dockerfile
+  #       id: build
+  #       run: |
+  #         TAG="${{ matrix.service }}:ci"
+  #         docker build -f deployment/dockerfile/${{ matrix.service }}/Dockerfile -t ${TAG} .
+  #         echo "::set-output name=tag::${TAG}"
 
-      # - name: Run Vulnerability Scanner
-      #   id: scan-vulnerability
-      #   uses: aquasecurity/trivy-action@0.0.8
-      #   with:
-      #     image-ref: ${{ steps.build.outputs.tag }}
-      #     format: table
-      #     exit-code: 1
-      #     ignore-unfixed: true
-      #     severity: "CRITICAL,HIGH"
+  #     # - name: Run Vulnerability Scanner
+  #     #   id: scan-vulnerability
+  #     #   uses: aquasecurity/trivy-action@0.0.8
+  #     #   with:
+  #     #     image-ref: ${{ steps.build.outputs.tag }}
+  #     #     format: table
+  #     #     exit-code: 1
+  #     #     ignore-unfixed: true
+  #     #     severity: "CRITICAL,HIGH"
 
-      # - name: Run Security Scanner
-      #   id: scan-security
-      #   run: |
-      #     dockle --exit-code 1 --exit-level warn ${{ steps.build.outputs.tag }}
+  #     # - name: Run Security Scanner
+  #     #   id: scan-security
+  #     #   run: |
+  #     #     dockle --exit-code 1 --exit-level warn ${{ steps.build.outputs.tag }}
 
-      # ベータ版のようだが、TrivyとDockleの2つを使ってチェックしてくれるAction
-      - name: Run Beta Container Scanner
-        id: beta-scanner
-        uses: Azure/container-scan@v0
-        with:
-          image-name: ${{ steps.build.outputs.tag }}
-          run-quality-checks: true
-          severity-threshold: HIGH
+  #     # ベータ版のようだが、TrivyとDockleの2つを使ってチェックしてくれるAction
+  #     - name: Run Beta Container Scanner
+  #       id: beta-scanner
+  #       uses: Azure/container-scan@v0
+  #       with:
+  #         image-name: ${{ steps.build.outputs.tag }}
+  #         run-quality-checks: true
+  #         severity-threshold: HIGH
