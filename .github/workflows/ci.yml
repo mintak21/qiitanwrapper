@@ -6,6 +6,9 @@ on:
       - master
   pull_request:
 
+env:
+  go-version: 1.17
+
 jobs:
   go-lint:
     name: Go Lint
@@ -24,10 +27,10 @@ jobs:
         id: lint
         uses: reviewdog/action-golangci-lint@v2
         with:
-          go_version: 1.14
+          go_version: ${ env.go-version }
           golangci_lint_flags: "-c .golangci.yml"
           reporter: github-pr-review
-          filter_mode: nofilter
+          filter_mode: file
           github_token: ${{ secrets.GITHUB_TOKEN }}
           fail_on_error: true
 
@@ -39,7 +42,7 @@ jobs:
         id: setup
         uses: actions/setup-go@v2.1.5
         with:
-          go-version: 1.14
+          go-version: ${ env.go-version }
 
       - name: Checkout code
         id: checkout

@@ -73,7 +73,6 @@ jobs:
     env:
       DOCKER_BUILDKIT: 1
     permissions:
-      # actions: read
       contents: read
       security-events: write
 
