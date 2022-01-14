@@ -27,7 +27,7 @@ jobs:
         id: lint
         uses: reviewdog/action-golangci-lint@v2
         with:
-          go_version: ${ env.go-version }
+          go_version: ${{ env.go-version }}
           golangci_lint_flags: "-c .golangci.yml"
           reporter: github-pr-review
           filter_mode: file
@@ -42,7 +42,7 @@ jobs:
         id: setup
         uses: actions/setup-go@v2.1.5
         with:
-          go-version: ${ env.go-version }
+          go-version: ${{ env.go-version }}
 
       - name: Checkout code
         id: checkout
