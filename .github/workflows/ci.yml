@@ -11,7 +11,7 @@ jobs:
     name: Go Lint
     runs-on: ubuntu-20.04
     permissions:
-      issues: write
+      contents: read
       pull-requests: write
 
     steps:
@@ -27,7 +27,7 @@ jobs:
           golangci_lint_flags: "-c .golangci.yml"
           reporter: github-pr-review
           filter_mode: nofilter
-          github_token: ${{ secrets.REVIEWDOG_TEST }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           fail_on_error: true
 
   go-unit-test:
