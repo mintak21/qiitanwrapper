@@ -6,7 +6,7 @@ require (
 	github.com/PuerkitoBio/goquery v1.6.1
 	github.com/andybalholm/cascadia v1.3.1
 	github.com/aws/aws-lambda-go v1.28.0
-	github.com/awslabs/aws-lambda-go-api-proxy v0.8.1
+	github.com/awslabs/aws-lambda-go-api-proxy v0.12.0
 	github.com/carbocation/interpose v0.0.0-20161206215253-723534742ba3
 	github.com/didip/tollbooth v4.0.2+incompatible
 	github.com/dre1080/recovr v1.0.3
@@ -51,8 +51,6 @@ require (
 	github.com/markbates/safe v1.0.1 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
-	github.com/onsi/ginkgo v1.14.0 // indirect
-	github.com/onsi/gomega v1.10.1 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/urfave/negroni v1.0.0 // indirect
 	github.com/ztrue/tracerr v0.3.0 // indirect
