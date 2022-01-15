@@ -10,7 +10,7 @@ require (
 	github.com/carbocation/interpose v0.0.0-20161206215253-723534742ba3
 	github.com/didip/tollbooth v4.0.2+incompatible
 	github.com/dre1080/recovr v1.0.3
-	github.com/go-openapi/errors v0.19.9
+	github.com/go-openapi/errors v0.20.1
 	github.com/go-openapi/loads v0.20.2
 	github.com/go-openapi/runtime v0.19.26
 	github.com/go-openapi/spec v0.20.4
