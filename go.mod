@@ -20,7 +20,7 @@ require (
 	github.com/go-playground/validator/v10 v10.10.0
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/jessevdk/go-flags v1.5.0
-	github.com/meatballhat/negroni-logrus v1.1.0
+	github.com/meatballhat/negroni-logrus v1.1.1
 	github.com/sirupsen/logrus v1.8.1
 	golang.org/x/net v0.0.0-20211029224645-99673261e6eb
 )
