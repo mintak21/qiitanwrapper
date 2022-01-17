@@ -12,7 +12,6 @@ on:
       - go.sum
     tags:
       - "v*.*.*"
-  pull_request:
 
 jobs:
   build:
@@ -21,14 +20,7 @@ jobs:
     #   fail-fast: false
     #   matrix:
     #     service: [api]
-    uses: mintak21/actions/.github/workflows/build_ghcr.yml@822ac4a4595107595d0c399cfc1fcdcda56ac2ba
+    uses: mintak21/actions/.github/workflows/build_ghcr.yml@main
     with:
       image: ${{ github.repository }}/api
       dockerfile: deployment/dockerfile/api/Dockerfile
-      flavor: |
-        latest=true
-        prefix=
-        suffix=
-      tags: |
-        type=ref,enable=true,event=pr,prefix=pr-,suffix=-{{sha}}
-        type=ref,enable=true,event=pr,prefix=pr2-,suffix=-{{sha}},value=latest
