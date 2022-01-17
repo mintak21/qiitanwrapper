@@ -22,8 +22,8 @@ jobs:
     #   matrix:
     #     service: [api]
     uses: mintak21/actions/.github/workflows/build.yml@main
-    env:
-      service: api
+    # env:
+    #   service: api
     with:
       image: ${{ github.repository }}/api
       dockerfile: deployment/dockerfile/api/Dockerfile
