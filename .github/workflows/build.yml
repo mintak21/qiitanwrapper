@@ -25,3 +25,7 @@ jobs:
     with:
       image: ${{ github.repository }}/api
       dockerfile: deployment/dockerfile/api/Dockerfile
+      flavor: |
+        latest=true
+        prefix=
+        suffix=
