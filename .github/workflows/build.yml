@@ -29,4 +29,4 @@ jobs:
       image: ${{ github.repository }}/api
       dockerfile: deployment/dockerfile/api/Dockerfile
     secrets:
-      registry-pass: ${{ secrets.GITHUB_TOKEN }}
+      registry_pass: ${{ secrets.GITHUB_TOKEN }}
