@@ -21,7 +21,7 @@ jobs:
     #   fail-fast: false
     #   matrix:
     #     service: [api]
-    uses: mintak21/actions/.github/workflows/build_ghcr.yml@main
+    uses: mintak21/actions/.github/workflows/build_ghcr.yml@6db555a021c367792ad0772ae8e4d48c89446eed
     with:
       image: ${{ github.repository }}/api
       dockerfile: deployment/dockerfile/api/Dockerfile
