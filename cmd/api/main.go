@@ -10,7 +10,7 @@ import (
 
 	"github.com/mintak21/qiitaWrapper/api/handler"
 	"github.com/mintak21/qiitaWrapper/gen/restapi"
-	qws "github.com/mintak21/qiitaWrapper/gen/restapi/qiitawrapper"
+	qw "github.com/mintak21/qiitaWrapper/gen/restapi/qiitawrapper"
 )
 
 const (
@@ -30,7 +30,7 @@ func main() {
 	}
 
 	// create new service API
-	api := qws.NewQiitawrapperAPI(swaggerSpec)
+	api := qw.NewQiitawrapperAPI(swaggerSpec)
 	server := restapi.NewServer(api)
 	defer shutdown(server)
 
