@@ -30,4 +30,5 @@ jobs:
         prefix=
         suffix=
       tags: |
-        type=ref,enable=false,event=pr,prefix=pr-,suffix=-{{sha}}
+        type=ref,enable=true,event=pr,prefix=pr-,suffix=-{{sha}}
+        type=ref,enable=true,event=pr,prefix=pr2-,suffix=-{{sha}},value=latest
