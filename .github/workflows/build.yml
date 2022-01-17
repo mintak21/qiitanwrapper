@@ -12,7 +12,6 @@ on:
       - go.sum
     tags:
       - "v*.*.*"
-  pull_request:
 
 jobs:
   build:
