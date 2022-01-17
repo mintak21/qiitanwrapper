@@ -24,7 +24,7 @@ jobs:
     permissions:
       packages: write
       contents: read
-    uses: mintak21/actions/.github/workflows/build.yml@main
+    uses: mintak21/actions/.github/workflows/build.yml@v0.1.0
     with:
       image: ${{ github.repository }}/api
       dockerfile: deployment/dockerfile/api/Dockerfile
