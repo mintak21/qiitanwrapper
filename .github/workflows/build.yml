@@ -21,12 +21,7 @@ jobs:
     #   fail-fast: false
     #   matrix:
     #     service: [api]
-    permissions:
-      packages: write
-      contents: read
-    uses: mintak21/actions/.github/workflows/build.yml@v0.1.0
+    uses: mintak21/actions/.github/workflows/build.yml@main
     with:
       image: ${{ github.repository }}/api
       dockerfile: deployment/dockerfile/api/Dockerfile
-    secrets:
-      registry_pass: ${{ secrets.GITHUB_TOKEN }}
