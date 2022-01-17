@@ -25,5 +25,5 @@ jobs:
     env:
       service: api
     with:
-      image: ${{ github.repository }}/${{ env.service }}
-      dockerfile: deployment/dockerfile/${{ env.service }}/Dockerfile
+      image: ${{ github.repository }}/api
+      dockerfile: deployment/dockerfile/api/Dockerfile
