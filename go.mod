@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/andybalholm/cascadia v1.3.1
-	github.com/aws/aws-lambda-go v1.28.0
+	github.com/aws/aws-lambda-go v1.30.0
 	github.com/awslabs/aws-lambda-go-api-proxy v0.12.0
 	github.com/carbocation/interpose v0.0.0-20161206215253-723534742ba3
 	github.com/didip/tollbooth v4.0.2+incompatible
