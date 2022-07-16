@@ -39,7 +39,7 @@ jobs:
     steps:
       - name: Set up Golang
         id: setup
-        uses: actions/setup-go@v2.1.5
+        uses: actions/setup-go@v3.2.1
         with:
           go-version: ${{ env.go-version }}
 
