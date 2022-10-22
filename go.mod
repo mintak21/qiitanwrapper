@@ -6,7 +6,7 @@ require (
 	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/andybalholm/cascadia v1.3.1
 	github.com/aws/aws-lambda-go v1.28.0
-	github.com/awslabs/aws-lambda-go-api-proxy v0.12.0
+	github.com/awslabs/aws-lambda-go-api-proxy v0.13.3
 	github.com/carbocation/interpose v0.0.0-20161206215253-723534742ba3
 	github.com/didip/tollbooth v4.0.2+incompatible
 	github.com/dre1080/recovr v1.0.3
@@ -22,7 +22,7 @@ require (
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/meatballhat/negroni-logrus v1.1.1
 	github.com/sirupsen/logrus v1.8.1
-	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd
+	golang.org/x/net v0.0.0-20220617184016-355a448f1bc9
 )
 
 require (
@@ -55,10 +55,10 @@ require (
 	github.com/urfave/negroni v1.0.0 // indirect
 	github.com/ztrue/tracerr v0.3.0 // indirect
 	go.mongodb.org/mongo-driver v1.8.3 // indirect
-	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
-	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
+	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e // indirect
+	golang.org/x/sys v0.0.0-20220615213510-4f61da869c0c // indirect
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
 	golang.org/x/text v0.3.7 // indirect
-	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4 // indirect
+	golang.org/x/time v0.0.0-20220609170525-579cf78fd858 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
