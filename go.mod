@@ -11,10 +11,10 @@ require (
 	github.com/didip/tollbooth v4.0.2+incompatible
 	github.com/dre1080/recovr v1.0.3
 	github.com/go-openapi/errors v0.20.2
-	github.com/go-openapi/loads v0.21.1
+	github.com/go-openapi/loads v0.21.2
 	github.com/go-openapi/runtime v0.24.2
-	github.com/go-openapi/spec v0.20.4
-	github.com/go-openapi/strfmt v0.21.2
+	github.com/go-openapi/spec v0.20.6
+	github.com/go-openapi/strfmt v0.21.3
 	github.com/go-openapi/swag v0.21.1
 	github.com/go-openapi/validate v0.21.0
 	github.com/go-playground/validator/v10 v10.10.0
@@ -26,18 +26,15 @@ require (
 )
 
 require (
-	github.com/PuerkitoBio/purell v1.1.1 // indirect
-	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
 	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0 // indirect
 	github.com/docker/go-units v0.4.0 // indirect
 	github.com/go-martini/martini v0.0.0-20170121215854-22fa46961aab // indirect
-	github.com/go-openapi/analysis v0.21.2 // indirect
+	github.com/go-openapi/analysis v0.21.4 // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
-	github.com/go-openapi/jsonreference v0.19.6 // indirect
+	github.com/go-openapi/jsonreference v0.20.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
-	github.com/go-stack/stack v1.8.1 // indirect
 	github.com/gobuffalo/logger v1.0.3 // indirect
 	github.com/gobuffalo/packd v1.0.0 // indirect
 	github.com/gobuffalo/packr/v2 v2.8.0 // indirect
@@ -54,8 +51,8 @@ require (
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/urfave/negroni v1.0.0 // indirect
 	github.com/ztrue/tracerr v0.3.0 // indirect
-	go.mongodb.org/mongo-driver v1.8.3 // indirect
-	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
+	go.mongodb.org/mongo-driver v1.10.0 // indirect
+	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d // indirect
 	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
 	golang.org/x/text v0.3.7 // indirect
